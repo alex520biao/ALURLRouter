@@ -10,12 +10,10 @@
 Pod::Spec.new do |s|
   s.name             = "ALURLRouter"
   s.version          = "0.1.0"
-  s.summary          = "A short description of ALURLRouter."
+  s.summary          = "ALURLRouter description"
   s.description      = <<-DESC.gsub(/^\s*\|?/,'')
-                       An optional longer description of ALURLRouter
+                       ALURLRouter is a tool of modularization.
 
-                       | * Markdown format.
-                       | * Don't worry about the indent, we strip it!
                        DESC
   s.homepage         = "https://github.com/alex520biao/ALURLRouter"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
