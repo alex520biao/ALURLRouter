@@ -3,23 +3,10 @@
 简明扼要的描述功能
 
 
-## Quick Start
-
-目前都使用cocoapods安装，在Podfile中加入
-
-```
-pod "ALURLRouter" 
-```
-
-## Example
-通过demo code 展示此pod的主要功能，使用者阅读了demo code应该可以了解pod的大部分功能，API设计应尽量简洁易懂。
-
-``` 
-demo code here
-```
-
-## 实现原理
-
+1. ALURLRouter可以得到任务处理进度，处理结果:成功/失败,成功信息/失败NSError
+2. ALURLRouter有返回值
+3. ALURLRouter参数更灵活,不仅限于url的query字符。而且可以是系统通用的类型如UIImage、NSDate等。
+4. 可以实现灵活的权限控制
 
 ## 维护者
 
