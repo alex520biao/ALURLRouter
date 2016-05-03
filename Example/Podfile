@@ -29,6 +29,7 @@ target 'ALURLRouter_Example', :exclusive => true do
   # Add Example specific dependencies here...
 
   pod "ALURLRouter", :path => "../"
+  pod 'PXAlertView', '~> 0.1.1'
 end
 
 target 'ALURLRouter_Tests', :exclusive => true do

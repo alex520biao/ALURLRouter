@@ -24,21 +24,21 @@
     UIButton *btnA1=[UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btnA1 setTitle:@"异步调用sercieA的action1服务" forState:UIControlStateNormal];
     [btnA1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btnA1.frame= CGRectMake(10,100,300,50);
+    btnA1.frame= CGRectMake(10,50,300,50);
     [btnA1 addTarget:self action:@selector(btnA1Action:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnA1];
     
     UIButton *btnA2=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [btnA2 setTitle:@"异步调用DCMarketingService的webpage服务" forState:UIControlStateNormal];
+    [btnA2 setTitle:@"异步调用通用webpage服务" forState:UIControlStateNormal];
     [btnA2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btnA2.frame= CGRectMake(10,200,300,50);
+    btnA2.frame= CGRectMake(10,100,300,50);
     [btnA2 addTarget:self action:@selector(btnA2Action:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnA2];
     
     UIButton *btnA3=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [btnA3 setTitle:@"异步调用DCMarketingService的alert服务" forState:UIControlStateNormal];
+    [btnA3 setTitle:@"异步调用通用alert服务" forState:UIControlStateNormal];
     [btnA3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btnA3.frame= CGRectMake(10,300,300,50);
+    btnA3.frame= CGRectMake(10,150,300,50);
     [btnA3 addTarget:self action:@selector(btnA3Action:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnA3];
     
@@ -46,16 +46,24 @@
     UIButton *btnB1=[UIButton buttonWithType:UIButtonTypeRoundedRect];
     [btnB1 setTitle:@"同步调用sercieB1的action1服务" forState:UIControlStateNormal];
     [btnB1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btnB1.frame= CGRectMake(10,400,300,50);
+    btnB1.frame= CGRectMake(10,200,300,50);
     [btnB1 addTarget:self action:@selector(btnB1Action:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnB1];
 
     UIButton *btnX1=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [btnX1 setTitle:@"打开http或https协议URL" forState:UIControlStateNormal];
+    [btnX1 setTitle:@"打开http协议URL" forState:UIControlStateNormal];
     [btnX1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btnX1.frame= CGRectMake(10,500,300,50);
+    btnX1.frame= CGRectMake(10,250,300,50);
     [btnX1 addTarget:self action:@selector(btnX1Action:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnX1];
+    
+    UIButton *btnX2=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [btnX2 setTitle:@"打开https协议URL" forState:UIControlStateNormal];
+    [btnX2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btnX2.frame= CGRectMake(10,300,300,50);
+    [btnX2 addTarget:self action:@selector(btnX2Action:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnX2];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -188,11 +196,14 @@
     
     //打开http或https协议URL
     [ALURLRouter callInsideURL:@"http://xiaojukeji.com/abc"];
+}
+
+-(void)btnX2Action:(id)sender{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:@"ADSDSAD" forKey:@"userId"];
     
-    NSURL *url = [NSURL URLWithString:@"https://www.hao123.com/"];
-    if ([[UIApplication sharedApplication] canOpenURL:url]) {
-        [[UIApplication sharedApplication] openURL:url];
-    }
+    //打开http或https协议URL
+    [ALURLRouter callInsideURL:@"https://xiaojukeji.com/efg"];
 }
 
 

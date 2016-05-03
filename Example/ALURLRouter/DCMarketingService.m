@@ -10,37 +10,52 @@
 #import "ALAppDelegate.h"
 #import <ALURLRouter/ALURLRouterKit.h>
 
+#import "PXAlertView.h"
+#import "ALDetailViewController.h"
+#import "ALWebViewController.h"
+
 @implementation DCMarketingService
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        //拦截并监听https协议的URL
-        [ALURLRouter registerURLPattern:@"https://"
-                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
-
-                                    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"打开https页面"
-                                                                                      message:[event.url absoluteString]
-                                                                                     delegate:nil
-                                                                            cancelButtonTitle:nil
-                                                                            otherButtonTitles:@"OK", nil];
-                                    [alertView show];
-                                    return nil;
-                                }];
-
         //拦截并监听http协议的URL
-        [ALURLRouter registerURLPattern:@"http://xiaojukeji.com/"
+        [ALURLRouter registerURLPattern:@"http://xiaojukeji.com/abc"
                                 handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
-                                    
-                                    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"打开https页面"
-                                                                                      message:[event.url absoluteString]
-                                                                                     delegate:nil
-                                                                            cancelButtonTitle:nil
-                                                                            otherButtonTitles:@"OK", nil];
-                                    [alertView show];
+                                    //使用系统Safari浏览器打开http页面
+                                    [PXAlertView showAlertWithTitle:@"使用系统Safari浏览器打开http页面"
+                                                            message:[event.url absoluteString]
+                                                        cancelTitle:@"OK"
+                                                         completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                             //http页面前往系统浏览器
+                                                             NSURL *url = [NSURL URLWithString:[event.url absoluteString]];
+                                                             if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                                                                 [[UIApplication sharedApplication] openURL:url];
+                                                             }
+                                                         }];
                                     return nil;
                                 }];
+        
+        //拦截并监听https协议的URL(可以是应用内浏览器页面)
+        [ALURLRouter registerURLPattern:@"https://xiaojukeji.com/efg"
+                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
+                                    //使用native页面打开https页面
+                                    [PXAlertView showAlertWithTitle:@"拦截https页面转换为native页面"
+                                                            message:[event.url absoluteString]
+                                                        cancelTitle:@"OK"
+                                                         completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                             ALDetailViewController *detailViewController = [[ALDetailViewController alloc] init];
+                                                             detailViewController.title = [NSString stringWithFormat:@"https页面转化而来:%@",[event.url absoluteString]];
+                                                             ALAppDelegate *delegate =[UIApplication sharedApplication].delegate;
+                                                             [delegate.naviController pushViewController:detailViewController
+                                                                                                animated:YES];
+                                                         
+                                                         }];
+                                    return nil;
+                                }];
+
+
         //异步处理运营通用web页
         [ALURLRouter registerURLPattern:@"app://identifier/marketing"
                                 handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
@@ -48,15 +63,16 @@
                                    //异步处理运营通用web页
                                    if([event.servie isEqualToString:@"marketing"] && [event.action isEqualToString:@"webpage"]){
                                        
-                                       UIViewController *webVC = [[UIViewController alloc] init];
+                                       ALWebViewController *webVC = [[ALWebViewController alloc] init];
                                        webVC.view.backgroundColor = [UIColor whiteColor];
+                                       webVC.title = @"通用运营web页";
                                        ALAppDelegate *delegate = (ALAppDelegate*)[UIApplication sharedApplication].delegate;
                                        
-                                       [delegate.window.rootViewController presentViewController:webVC
-                                                                                        animated:YES
-                                                                                      completion:^{
-                                                                                          
-                                                                                      }];
+                                       [delegate.naviController pushViewController:webVC
+                                                                          animated:YES];
+                                       
+                                       NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.hao123.com/"]];
+                                       [webVC.webView loadRequest:request];
                                        
                                        //处理中
                                        if (event.progress) {
@@ -83,7 +99,7 @@
                                    //异步处理运营通用alert页
                                    else if([event.servie isEqualToString:@"marketing"] && [event.action isEqualToString:@"alert"]){
                                        
-                                       UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"运营弹框"
+                                       UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"通用运营弹框"
                                                                                          message:nil
                                                                                         delegate:nil
                                                                                cancelButtonTitle:nil
