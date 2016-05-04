@@ -14,6 +14,7 @@
  */
 @interface ALURLEvent : NSObject
 
+#pragma mark - URL相关
 /*!
  *  @brief 原始InsideURL
  */
@@ -22,29 +23,32 @@
 /*!
  *  @brief URL Scheme,如diditravel
  */
-@property (nonatomic, strong, readonly) NSString       *URLScheme;
+@property (nonatomic, copy, readonly) NSString       *URLScheme;
 
 /*!
  *  @brief  URL Identifier(URL Scheme的名称,一般采用反转域名的方法保证该名字的唯一性: com.company.product)
  *  @note   一般与app的Bundle Identifier保持一致
  */
-@property (nonatomic, strong, readonly) NSString       *URLIdentifier;
+@property (nonatomic, copy, readonly) NSString       *URLIdentifier;
 
 /*!
  *  @brief  业务分类或服务
+ @  @note   URL的一级path
  */
-@property (nonatomic, strong, readonly) NSString       *servie;
+@property (nonatomic, copy, readonly) NSString       *servie;
 
 /*!
  *  @brief  页面或动作(一般是打开指定页面)
+ *  @note   URL的二级path
  */
-@property (nonatomic, strong, readonly) NSString       *action;
+@property (nonatomic, copy, readonly) NSString       *action;
 
 /*!
  *  @brief URL的query参数
  */
 @property (nonatomic, strong, readonly) NSDictionary   *queryDict;
 
+#pragma mark - other
 /*!
  *  @brief 用户自定义信息
  */

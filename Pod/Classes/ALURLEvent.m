@@ -18,22 +18,22 @@
 /*!
  *  @brief URL Scheme
  */
-@property (nonatomic, strong, readwrite) NSString       *URLScheme;
+@property (nonatomic, copy, readwrite) NSString       *URLScheme;
 
 /*!
  *  @brief  URL Identifier(URL Scheme的名称,一般采用反转域名的方法保证该名字的唯一性: com.didi.passengerApp)
  */
-@property (nonatomic, strong, readwrite) NSString       *URLIdentifier;
+@property (nonatomic, copy, readwrite) NSString       *URLIdentifier;
 
 /*!
  *  @brief  页面/服务名称
  */
-@property (nonatomic, strong, readwrite) NSString       *servie;
+@property (nonatomic, copy, readwrite) NSString       *servie;
 
 /*!
  *  @brief  动作/行为名称
  */
-@property (nonatomic, strong, readwrite) NSString       *action;
+@property (nonatomic, copy, readwrite) NSString       *action;
 
 
 /*!
