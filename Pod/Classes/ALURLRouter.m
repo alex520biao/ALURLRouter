@@ -39,29 +39,17 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
 
 @implementation ALURLRouter
 
-+ (instancetype)sharedIsntance
-{
-    static ALURLRouter *instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[self alloc] init];
-    });
-    return instance;
-}
-
-
 #pragma mark - URLPattern管理
-+ (void)registerURLPattern:(NSString *)URLPattern handler:(ALURLEventHandler)handler{
-    [[self sharedIsntance] addURLPattern:URLPattern andObjectHandler:handler];
+- (void)registerURLPattern:(NSString *)URLPattern handler:(ALURLEventHandler)handler{
+    [self addURLPattern:URLPattern andObjectHandler:handler];
 }
 
-+ (void)deregisterURLPattern:(NSString *)URLPattern{
-
-    [[self sharedIsntance] removeURLPattern:URLPattern];
+- (void)deregisterURLPattern:(NSString *)URLPattern{
+    [self removeURLPattern:URLPattern];
 }
 
-+ (BOOL)canCallURL:(NSString *)URL{
-    return [[self sharedIsntance] extractParametersFromURL:URL] ? YES : NO;
+- (BOOL)canCallURL:(NSString *)URL{
+    return [self extractParametersFromURL:URL] ? YES : NO;
 }
 
 - (void)addURLPattern:(NSString *)URLPattern andHandler:(ALURLEventHandler)handler{
@@ -125,19 +113,19 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
 }
 
 #pragma mark - openURL
-+ (void)callInsideURL:(NSString *)URL{
+- (void)callInsideURL:(NSString *)URL{
     [self callInsideURL:URL
            withUserInfo:nil
                progress:nil
               completed:nil];
 }
 
-+ (void)callInsideURL:(NSString *)URL
+- (void)callInsideURL:(NSString *)URL
          withUserInfo:(NSDictionary *)userInfo
              progress:(ALURLProgressBlcok)progress
             completed:(ALURLCompletedBlcok)completed{
     URL = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSMutableDictionary *matcher = [[self sharedIsntance] extractParametersFromURL:URL];
+    NSMutableDictionary *matcher = [self extractParametersFromURL:URL];
     ALURLEvent *event = [[ALURLEvent alloc] initWithInsideURL:[NSURL URLWithString:URL]
                                                      userInfo:userInfo
                                                      progress:progress
@@ -181,13 +169,11 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     }
 }
 
-+ (id)callInsideURLSync:(NSString *)URL
+- (id)callInsideURLSync:(NSString *)URL
            withUserInfo:(NSDictionary *)userInfo
                   error:(NSError **)error{
-    ALURLRouter *router = [ALURLRouter sharedIsntance];
-    
     URL = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSMutableDictionary *matcher = [router extractParametersFromURL:URL];
+    NSMutableDictionary *matcher = [self extractParametersFromURL:URL];
     ALURLEventHandler handler = matcher[ALURL_BLOCK];
     
     ALURLEvent *event = [[ALURLEvent alloc] initWithInsideURL:[NSURL URLWithString:URL]
@@ -226,7 +212,7 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     return nil;
 }
 
-+ (id)callInsideURLSync:(NSString *)URL{
+- (id)callInsideURLSync:(NSString *)URL{
     return [self callInsideURLSync:URL withUserInfo:nil error:nil];
 }
 

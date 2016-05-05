@@ -8,6 +8,17 @@
 
 #import "ALAppDelegate.h"
 #import "ALViewController.h"
+#import <ALURLRouter/ALURLRouterKit.h>
+#import "ALServiceManager.h"
+
+@interface ALAppDelegate ()
+
+/*!
+ *  @brief 业务模块间通信路由(Service间URL调用)
+ */
+//@property(nonatomic,strong)ALURLRouter *urlRouter;
+
+@end
 
 @implementation ALAppDelegate
 
@@ -23,9 +34,24 @@
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     
-    self.service = [[DCMarketingService alloc] init];
-    self.serviceA = [[ServiceA alloc] init];
-    self.serviceB = [[ServiceB alloc] init];
+    self.urlRouter = [[ALURLRouter alloc] init];
+    
+    //根据在注册表创建实例化对象
+    __weak typeof(self) weakSelf = self;
+    [[ALServiceManager sharedInstance] setupProducts:^(ALBaseService *service) {
+        //属性依赖注入
+        service.urlRouter = weakSelf.urlRouter;
+        
+        if([service isKindOfClass:[ALMarketingService class]]){
+            self.service = (ALMarketingService*)service;
+        }else if ([service isKindOfClass:[ALServiceA class]]){
+            self.serviceA = (ALServiceA*)service;
+        }else if([service isKindOfClass:[ALServiceB class]]){
+            self.serviceB = (ALServiceB*)service;
+        }else if([service isKindOfClass:[ALServiceC class]]){
+            self.serviceC = (ALServiceC*)service;
+        }
+    }];
     
     return YES;
 }

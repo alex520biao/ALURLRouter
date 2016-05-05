@@ -7,9 +7,10 @@
 //
 
 @import UIKit;
-#import "DCMarketingService.h"
-#import "ServiceA.h"
-#import "ServiceB.h"
+#import "ALMarketingService.h"
+#import "ALServiceA.h"
+#import "ALServiceB.h"
+#import "ALServiceC.h"
 
 
 @interface ALAppDelegate : UIResponder <UIApplicationDelegate>
@@ -21,9 +22,16 @@
  */
 @property (strong, nonatomic) UINavigationController *naviController;
 
-@property (strong, nonatomic) DCMarketingService *service;
-@property (strong, nonatomic) ServiceA *serviceA;
-@property (strong, nonatomic) ServiceB *serviceB;
+@property (strong, nonatomic) ALMarketingService *service;
+@property (strong, nonatomic) ALServiceA *serviceA;
+@property (strong, nonatomic) ALServiceB *serviceB;
+@property (strong, nonatomic) ALServiceC *serviceC;
+
+/*!
+ *  @brief 业务模块间通信路由(Service间URL调用)
+ */
+@property(nonatomic,strong)ALURLRouter *urlRouter;
+
 
 
 @end

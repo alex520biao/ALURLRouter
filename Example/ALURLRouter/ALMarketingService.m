@@ -6,7 +6,7 @@
 //  Copyright © 2016年 alex520biao. All rights reserved.
 //
 
-#import "DCMarketingService.h"
+#import "ALMarketingService.h"
 #import "ALAppDelegate.h"
 #import <ALURLRouter/ALURLRouterKit.h>
 
@@ -14,51 +14,58 @@
 #import "ALDetailViewController.h"
 #import "ALWebViewController.h"
 
-@implementation DCMarketingService
+#import "ALServiceManager.h"
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        //拦截并监听http协议的URL
-        [ALURLRouter registerURLPattern:@"http://xiaojukeji.com/abc"
-                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
-                                    //使用系统Safari浏览器打开http页面
-                                    [PXAlertView showAlertWithTitle:@"使用系统Safari浏览器打开http页面"
-                                                            message:[event.url absoluteString]
-                                                        cancelTitle:@"OK"
-                                                         completion:^(BOOL cancelled, NSInteger buttonIndex) {
-                                                             //http页面前往系统浏览器
-                                                             NSURL *url = [NSURL URLWithString:[event.url absoluteString]];
-                                                             if ([[UIApplication sharedApplication] canOpenURL:url]) {
-                                                                 [[UIApplication sharedApplication] openURL:url];
-                                                             }
-                                                         }];
-                                    return nil;
-                                }];
-        
-        //拦截并监听https协议的URL(可以是应用内浏览器页面)
-        [ALURLRouter registerURLPattern:@"https://xiaojukeji.com/efg"
-                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
-                                    //使用native页面打开https页面
-                                    [PXAlertView showAlertWithTitle:@"拦截https页面转换为native页面"
-                                                            message:[event.url absoluteString]
-                                                        cancelTitle:@"OK"
-                                                         completion:^(BOOL cancelled, NSInteger buttonIndex) {
-                                                             ALDetailViewController *detailViewController = [[ALDetailViewController alloc] init];
-                                                             detailViewController.title = [NSString stringWithFormat:@"https页面转化而来:%@",[event.url absoluteString]];
-                                                             ALAppDelegate *delegate =[UIApplication sharedApplication].delegate;
-                                                             [delegate.naviController pushViewController:detailViewController
-                                                                                                animated:YES];
-                                                         
-                                                         }];
-                                    return nil;
-                                }];
+@implementation ALMarketingService
 
 
-        //异步处理运营通用web页
-        [ALURLRouter registerURLPattern:@"app://identifier/marketing"
-                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
++(void)load{
+
+    [[ALServiceManager sharedInstance] addService:[self class] serviceId:@"ALMarketingService"];
+}
+
+-(void)serviceDidLoad{
+    [super serviceDidLoad];
+
+    //拦截并监听http协议的URL
+    [self.urlRouter registerURLPattern:@"http://xiaojukeji.com/abc"
+                               handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
+                                   //使用系统Safari浏览器打开http页面
+                                   [PXAlertView showAlertWithTitle:@"使用系统Safari浏览器打开http页面"
+                                                           message:[event.url absoluteString]
+                                                       cancelTitle:@"OK"
+                                                        completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                            //http页面前往系统浏览器
+                                                            NSURL *url = [NSURL URLWithString:[event.url absoluteString]];
+                                                            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                                                                [[UIApplication sharedApplication] openURL:url];
+                                                            }
+                                                        }];
+                                   return nil;
+                               }];
+    
+    //拦截并监听https协议的URL(可以是应用内浏览器页面)
+    [self.urlRouter registerURLPattern:@"https://xiaojukeji.com/efg"
+                               handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
+                                   //使用native页面打开https页面
+                                   [PXAlertView showAlertWithTitle:@"拦截https页面转换为native页面"
+                                                           message:[event.url absoluteString]
+                                                       cancelTitle:@"OK"
+                                                        completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                            ALDetailViewController *detailViewController = [[ALDetailViewController alloc] init];
+                                                            detailViewController.title = [NSString stringWithFormat:@"https页面转化而来:%@",[event.url absoluteString]];
+                                                            ALAppDelegate *delegate =[UIApplication sharedApplication].delegate;
+                                                            [delegate.naviController pushViewController:detailViewController
+                                                                                               animated:YES];
+                                                            
+                                                        }];
+                                   return nil;
+                               }];
+    
+    
+    //异步处理运营通用web页
+    [self.urlRouter registerURLPattern:@"app://identifier/marketing"
+                               handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
                                    
                                    //异步处理运营通用web页
                                    if([event.servie isEqualToString:@"marketing"] && [event.action isEqualToString:@"webpage"]){
@@ -128,11 +135,9 @@
                                        //如果URL为同步处理过程则需要返回值
                                        return nil;
                                    }
-
+                                   
                                    return nil;
                                }];
-    }
-    return self;
 }
 
 

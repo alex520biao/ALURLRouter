@@ -22,12 +22,16 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		D92580911CDB49F300ACE77A /* ALBaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = D92580901CDB49F300ACE77A /* ALBaseService.m */; };
+		D92580941CDB4C0600ACE77A /* ALServiceC.m in Sources */ = {isa = PBXBuildFile; fileRef = D92580931CDB4C0600ACE77A /* ALServiceC.m */; };
+		D92580971CDB59C000ACE77A /* ALServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D92580961CDB59C000ACE77A /* ALServiceManager.m */; };
+		D925809A1CDB5C7B00ACE77A /* ALServiceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D92580991CDB5C7B00ACE77A /* ALServiceItem.m */; };
 		D955B5F21C35317B002E271A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D955B5F11C35317B002E271A /* Launch Screen.storyboard */; };
 		D988BA751CD8B88D00FA0177 /* ALDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D988BA741CD8B88D00FA0177 /* ALDetailViewController.m */; };
 		D988BA781CD8BB9E00FA0177 /* ALWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D988BA771CD8BB9E00FA0177 /* ALWebViewController.m */; };
-		D9927FD71CD0D6A70014072A /* DCMarketingService.m in Sources */ = {isa = PBXBuildFile; fileRef = D9927FD21CD0D6A70014072A /* DCMarketingService.m */; };
-		D9927FD81CD0D6A70014072A /* ServiceA.m in Sources */ = {isa = PBXBuildFile; fileRef = D9927FD41CD0D6A70014072A /* ServiceA.m */; };
-		D9927FD91CD0D6A70014072A /* ServiceB.m in Sources */ = {isa = PBXBuildFile; fileRef = D9927FD61CD0D6A70014072A /* ServiceB.m */; };
+		D9927FD71CD0D6A70014072A /* ALMarketingService.m in Sources */ = {isa = PBXBuildFile; fileRef = D9927FD21CD0D6A70014072A /* ALMarketingService.m */; };
+		D9927FD81CD0D6A70014072A /* ALServiceA.m in Sources */ = {isa = PBXBuildFile; fileRef = D9927FD41CD0D6A70014072A /* ALServiceA.m */; };
+		D9927FD91CD0D6A70014072A /* ALServiceB.m in Sources */ = {isa = PBXBuildFile; fileRef = D9927FD61CD0D6A70014072A /* ALServiceB.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,17 +73,25 @@
 		C4F6EC843F66A9AB1A41942D /* Pods-ALURLRouter_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ALURLRouter_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ALURLRouter_Tests/Pods-ALURLRouter_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		D50CAE1978EF6EC68471A1FF /* Pods-ALURLRouter_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ALURLRouter_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ALURLRouter_Example/Pods-ALURLRouter_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D790A444ADF29537F6D2898F /* libPods-ALURLRouter_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ALURLRouter_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D925808F1CDB49F300ACE77A /* ALBaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALBaseService.h; sourceTree = "<group>"; };
+		D92580901CDB49F300ACE77A /* ALBaseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALBaseService.m; sourceTree = "<group>"; };
+		D92580921CDB4C0600ACE77A /* ALServiceC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALServiceC.h; sourceTree = "<group>"; };
+		D92580931CDB4C0600ACE77A /* ALServiceC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALServiceC.m; sourceTree = "<group>"; };
+		D92580951CDB59C000ACE77A /* ALServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALServiceManager.h; sourceTree = "<group>"; };
+		D92580961CDB59C000ACE77A /* ALServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALServiceManager.m; sourceTree = "<group>"; };
+		D92580981CDB5C7B00ACE77A /* ALServiceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALServiceItem.h; sourceTree = "<group>"; };
+		D92580991CDB5C7B00ACE77A /* ALServiceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALServiceItem.m; sourceTree = "<group>"; };
 		D955B5F11C35317B002E271A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D988BA731CD8B88D00FA0177 /* ALDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDetailViewController.h; sourceTree = "<group>"; };
 		D988BA741CD8B88D00FA0177 /* ALDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDetailViewController.m; sourceTree = "<group>"; };
 		D988BA761CD8BB9E00FA0177 /* ALWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALWebViewController.h; sourceTree = "<group>"; };
 		D988BA771CD8BB9E00FA0177 /* ALWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALWebViewController.m; sourceTree = "<group>"; };
-		D9927FD11CD0D6A70014072A /* DCMarketingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMarketingService.h; sourceTree = "<group>"; };
-		D9927FD21CD0D6A70014072A /* DCMarketingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMarketingService.m; sourceTree = "<group>"; };
-		D9927FD31CD0D6A70014072A /* ServiceA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceA.h; sourceTree = "<group>"; };
-		D9927FD41CD0D6A70014072A /* ServiceA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceA.m; sourceTree = "<group>"; };
-		D9927FD51CD0D6A70014072A /* ServiceB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceB.h; sourceTree = "<group>"; };
-		D9927FD61CD0D6A70014072A /* ServiceB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceB.m; sourceTree = "<group>"; };
+		D9927FD11CD0D6A70014072A /* ALMarketingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMarketingService.h; sourceTree = "<group>"; };
+		D9927FD21CD0D6A70014072A /* ALMarketingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMarketingService.m; sourceTree = "<group>"; };
+		D9927FD31CD0D6A70014072A /* ALServiceA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALServiceA.h; sourceTree = "<group>"; };
+		D9927FD41CD0D6A70014072A /* ALServiceA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALServiceA.m; sourceTree = "<group>"; };
+		D9927FD51CD0D6A70014072A /* ALServiceB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALServiceB.h; sourceTree = "<group>"; };
+		D9927FD61CD0D6A70014072A /* ALServiceB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALServiceB.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,12 +176,20 @@
 				D988BA741CD8B88D00FA0177 /* ALDetailViewController.m */,
 				D988BA761CD8BB9E00FA0177 /* ALWebViewController.h */,
 				D988BA771CD8BB9E00FA0177 /* ALWebViewController.m */,
-				D9927FD11CD0D6A70014072A /* DCMarketingService.h */,
-				D9927FD21CD0D6A70014072A /* DCMarketingService.m */,
-				D9927FD31CD0D6A70014072A /* ServiceA.h */,
-				D9927FD41CD0D6A70014072A /* ServiceA.m */,
-				D9927FD51CD0D6A70014072A /* ServiceB.h */,
-				D9927FD61CD0D6A70014072A /* ServiceB.m */,
+				D925808F1CDB49F300ACE77A /* ALBaseService.h */,
+				D92580901CDB49F300ACE77A /* ALBaseService.m */,
+				D92580951CDB59C000ACE77A /* ALServiceManager.h */,
+				D92580961CDB59C000ACE77A /* ALServiceManager.m */,
+				D92580981CDB5C7B00ACE77A /* ALServiceItem.h */,
+				D92580991CDB5C7B00ACE77A /* ALServiceItem.m */,
+				D9927FD11CD0D6A70014072A /* ALMarketingService.h */,
+				D9927FD21CD0D6A70014072A /* ALMarketingService.m */,
+				D9927FD31CD0D6A70014072A /* ALServiceA.h */,
+				D9927FD41CD0D6A70014072A /* ALServiceA.m */,
+				D9927FD51CD0D6A70014072A /* ALServiceB.h */,
+				D9927FD61CD0D6A70014072A /* ALServiceB.m */,
+				D92580921CDB4C0600ACE77A /* ALServiceC.h */,
+				D92580931CDB4C0600ACE77A /* ALServiceC.m */,
 				D955B5F11C35317B002E271A /* Launch Screen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -415,12 +435,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9927FD91CD0D6A70014072A /* ServiceB.m in Sources */,
+				D9927FD91CD0D6A70014072A /* ALServiceB.m in Sources */,
 				6003F59E195388D20070C39A /* ALAppDelegate.m in Sources */,
 				D988BA781CD8BB9E00FA0177 /* ALWebViewController.m in Sources */,
+				D925809A1CDB5C7B00ACE77A /* ALServiceItem.m in Sources */,
 				D988BA751CD8B88D00FA0177 /* ALDetailViewController.m in Sources */,
-				D9927FD71CD0D6A70014072A /* DCMarketingService.m in Sources */,
-				D9927FD81CD0D6A70014072A /* ServiceA.m in Sources */,
+				D9927FD71CD0D6A70014072A /* ALMarketingService.m in Sources */,
+				D9927FD81CD0D6A70014072A /* ALServiceA.m in Sources */,
+				D92580911CDB49F300ACE77A /* ALBaseService.m in Sources */,
+				D92580941CDB4C0600ACE77A /* ALServiceC.m in Sources */,
+				D92580971CDB59C000ACE77A /* ALServiceManager.m in Sources */,
 				6003F5A7195388D20070C39A /* ALViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);

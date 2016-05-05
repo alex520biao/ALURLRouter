@@ -8,6 +8,7 @@
 
 #import "ALViewController.h"
 #import <ALURLRouter/ALURLRouterKit.h>
+#import "ALAppDelegate.h"
 
 @interface ALViewController ()
 
@@ -74,136 +75,42 @@
 
 #pragma mark - Action
 -(void)btnA1Action:(id)sender{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:@"ADSDSAD" forKey:@"userId"];
+    ALAppDelegate *delegate = (ALAppDelegate*)[UIApplication sharedApplication].delegate;
+    ALServiceC * sercie = delegate.serviceC;
     
-    [ALURLRouter callInsideURL:@"app://identifier/sercieA/action1/a?orderId=123456&error=0"
-                         withUserInfo:dict
-                             progress:^(ALURLEvent *event, ALProgress progress, NSDictionary *moreInfo) {
-                                 NSLog(@"progress");
-                             } completed:^(ALURLEvent *event, id result, NSError *error) {
-                                 NSLog(@"completed");
-                                 
-                                 //执行成功
-                                 if(!error){
-                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"异步InsideURL: 成功"
-                                                                                     message:[NSString stringWithFormat:@"返回值:%@",result]
-                                                                                    delegate:nil
-                                                                           cancelButtonTitle:nil
-                                                                           otherButtonTitles:@"OK", nil];
-                                     [alert show];
-                                 }
-                                 //发生异常
-                                 else{
-                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"同步InsideURL: 失败"
-                                                                                     message:[NSString stringWithFormat:@"error:%@",[error description]]
-                                                                                    delegate:nil
-                                                                           cancelButtonTitle:nil
-                                                                           otherButtonTitles:@"OK", nil];
-                                     [alert show];
-                                 }
-                             }];
+    [sercie handleUserAction:0];    
 }
 
 -(void)btnA2Action:(id)sender{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:@"ADSDSAD" forKey:@"userId"];
+    ALAppDelegate *delegate = (ALAppDelegate*)[UIApplication sharedApplication].delegate;
+    ALServiceC * sercie = delegate.serviceC;
     
-    [ALURLRouter callInsideURL:@"app://identifier/marketing/webpage"
-                         withUserInfo:dict
-                             progress:^(ALURLEvent *event, ALProgress progress, NSDictionary *moreInfo) {
-                                 NSLog(@"progress");
-                             } completed:^(ALURLEvent *event, id result, NSError *error) {
-                                 NSLog(@"completed");
-                                 
-                                 //执行成功
-                                 if(!error){
-                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"异步InsideURL: 成功"
-                                                                                     message:[NSString stringWithFormat:@"返回值:%@",result]
-                                                                                    delegate:nil
-                                                                           cancelButtonTitle:nil
-                                                                           otherButtonTitles:@"OK", nil];
-                                     [alert show];
-                                 }
-                                 //发生异常
-                                 else{
-                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"异步InsideURL: 失败"
-                                                                                     message:[NSString stringWithFormat:@"error:%@",[error description]]
-                                                                                    delegate:nil
-                                                                           cancelButtonTitle:nil
-                                                                           otherButtonTitles:@"OK", nil];
-                                     [alert show];
-                                 }
-                             }];
+    [sercie handleUserAction:1];    
 }
 
 -(void)btnA3Action:(id)sender{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:@"ADSDSAD" forKey:@"userId"];
+    ALAppDelegate *delegate = (ALAppDelegate*)[UIApplication sharedApplication].delegate;
+    ALServiceC * sercie = delegate.serviceC;
     
-    [ALURLRouter callInsideURL:@"app://identifier/marketing/alert"
-                         withUserInfo:dict
-                             progress:^(ALURLEvent *event, ALProgress progress, NSDictionary *moreInfo) {
-                                 NSLog(@"progress");
-                             } completed:^(ALURLEvent *event, id result, NSError *error) {
-                                 NSLog(@"completed");
-                                 
-                                 //执行成功
-                                 if(!error){
-                                     //...
-                                 }
-                                 //发生异常
-                                 else{
-                                     //...
-                                 }
-                             }];
+    [sercie handleUserAction:2];
 }
 
 -(void)btnB1Action:(id)sender{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:@"ADSDSAD" forKey:@"userId"];
-    
-    
-    NSError *error = nil;
-    id ret = [ALURLRouter callInsideURLSync:@"app://identifier/sercieB/action1/a?orderId=123456&error=0"
-                                      withUserInfo:dict
-                                             error:&error];
-    
-    
-    //执行成功
-    if(!error){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"同步InsideURL: 成功"
-                                                        message:[NSString stringWithFormat:@"返回值:%@",ret]
-                                                       delegate:nil
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:@"OK", nil];
-        [alert show];
-    }
-    //发生异常
-    else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"同步InsideURL: 失败"
-                                                        message:[NSString stringWithFormat:@"error:%@",[error description]]
-                                                       delegate:nil
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:@"OK", nil];
-        [alert show];
-    }
+    ALAppDelegate *delegate = (ALAppDelegate*)[UIApplication sharedApplication].delegate;
+    ALServiceC * sercie = delegate.serviceC;
+    [sercie handleUserAction:2];    
 }
 
 -(void)btnX1Action:(id)sender{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:@"ADSDSAD" forKey:@"userId"];
-    
-    //打开http或https协议URL
-    [ALURLRouter callInsideURL:@"http://xiaojukeji.com/abc"];
+    ALAppDelegate *delegate = (ALAppDelegate*)[UIApplication sharedApplication].delegate;
+    ALServiceC * sercie = delegate.serviceC;
+    [sercie handleUserAction:3];    
 }
 
 -(void)btnX2Action:(id)sender{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:@"ADSDSAD" forKey:@"userId"];
-    
-    //打开http或https协议URL
-    [ALURLRouter callInsideURL:@"https://xiaojukeji.com/efg"];
+    ALAppDelegate *delegate = (ALAppDelegate*)[UIApplication sharedApplication].delegate;
+    ALServiceC * sercie = delegate.serviceC;
+    [sercie handleUserAction:4];
 }
 
 

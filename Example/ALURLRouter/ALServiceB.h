@@ -1,5 +1,5 @@
 //
-//  ServiceB.h
+//  ALServiceB.h
 //  ALURLManager
 //
 //  Created by alex520biao on 16/4/24.
@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ALBaseService.h"
 
-@interface ServiceB : NSObject
+@class ALURLRouter;
+
+@interface ALServiceB : ALBaseService
+
 
 @end

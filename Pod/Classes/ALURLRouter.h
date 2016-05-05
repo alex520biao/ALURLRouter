@@ -35,14 +35,14 @@ FOUNDATION_EXPORT NSInteger const ALURLErrorCodeURLInvalid;
  *  @param URLPattern 为URL即?前部分(不带参数)，如 app://serviceA/action1
  *  @param handler    URLPattern的处理block
  */
-+ (void)registerURLPattern:(NSString *)URLPattern handler:(ALURLEventHandler)handler;
+- (void)registerURLPattern:(NSString *)URLPattern handler:(ALURLEventHandler)handler;
 
 /**
  *  撤销某个URL Pattern
  *
  *  @param URLPattern
  */
-+ (void)deregisterURLPattern:(NSString *)URLPattern;
+- (void)deregisterURLPattern:(NSString *)URLPattern;
 
 /**
  *  是否可以调用URL
@@ -51,7 +51,7 @@ FOUNDATION_EXPORT NSInteger const ALURLErrorCodeURLInvalid;
  *
  *  @return
  */
-+ (BOOL)canCallURL:(NSString *)URL;
+- (BOOL)canCallURL:(NSString *)URL;
 
 #pragma mark - callInsideURL(异步)
 /**
@@ -60,7 +60,7 @@ FOUNDATION_EXPORT NSInteger const ALURLErrorCodeURLInvalid;
  *
  *  @param URL 带 Scheme，如 app://serviceA/action1。 InsideURL请参考文档。
  */
-+ (void)callInsideURL:(NSString *)URL;
+- (void)callInsideURL:(NSString *)URL;
 
 /**
  *  调用此URL,结果通过异步block返回
@@ -71,7 +71,7 @@ FOUNDATION_EXPORT NSInteger const ALURLErrorCodeURLInvalid;
  *  @param progress   URL处理进度的backblock
  *  @param completed  URL处理完成后的backblock
  */
-+ (void)callInsideURL:(NSString *)URL
+- (void)callInsideURL:(NSString *)URL
          withUserInfo:(NSDictionary *)userInfo
              progress:(ALURLProgressBlcok)progress
             completed:(ALURLCompletedBlcok)completed;
@@ -83,7 +83,7 @@ FOUNDATION_EXPORT NSInteger const ALURLErrorCodeURLInvalid;
  *
  *  @param URL
  */
-+ (id)callInsideURLSync:(NSString *)URL;
+- (id)callInsideURLSync:(NSString *)URL;
 
 /**
  * 调用此URL并得到一个返回值
@@ -92,7 +92,7 @@ FOUNDATION_EXPORT NSInteger const ALURLErrorCodeURLInvalid;
  *  @param URL
  *  @param userInfo 除URL之外的更多信息,必须是非自定义通用类型: 基础数据类型(NSString、NSNumber等)、系统Foundation、UIKit等框架类型(NSData、UIImage等)、或者是双方模块公有类型
  */
-+ (id)callInsideURLSync:(NSString *)URL
+- (id)callInsideURLSync:(NSString *)URL
            withUserInfo:(NSDictionary *)userInfo
                   error:(NSError **)error;
 
