@@ -90,9 +90,8 @@
                                        
                                        //此服务已不可用
                                        if([[event.queryDict objectForKey:@"error"] integerValue]==1){
-                                           *error = [NSError errorWithDomain:ALURLErrorDomain
-                                                                        code:403
-                                                                    userInfo:nil];
+                                           *error = [NSError ALURLErrorWithCode:403
+                                                                            msg:@"XXXXX错误"];
                                        }
                                        
                                        //事件处理完成回调
@@ -122,9 +121,9 @@
                                        
                                        //此服务已不可用
                                        if([[event.queryDict objectForKey:@"error"] integerValue]==1){
-                                           *error = [NSError errorWithDomain:ALURLErrorDomain
-                                                                        code:403
-                                                                    userInfo:nil];
+                                           *error = [NSError ALURLErrorWithCode:403
+                                                                            msg:@"XXXXX错误"];
+
                                        }
                                        
                                        //事件处理完成回调

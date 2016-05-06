@@ -7,11 +7,8 @@
 
 #import "ALURLRouter.h"
 #import "ALURLEvent.h"
+#import "NSError+ALURL.h"
 #import <objc/runtime.h>
-
-NSString *const ALURLErrorDomain = @"ALURLErrorDomain";
-NSInteger const ALURLErrorCodeNotFound = 904;
-NSInteger const ALURLErrorCodeURLInvalid = 905;
 
 extern NSString *const ALURLRouterParameterURL;
 extern NSString *const ALURLRouterParameterCompletion;
@@ -133,9 +130,8 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     //NSURL创建失败说明url格式不合法
     if(!event.url){
         if (event.completion) {
-            NSError *error = [NSError errorWithDomain:ALURLErrorDomain
-                                                 code:ALURLErrorCodeURLInvalid
-                                             userInfo:nil];
+            NSError *error = [NSError ALURLErrorWithCode:ALURLErrorCodeURLInvalid
+                                                     msg:@"URL format is not valid"];
             event.completion(event,nil,error);
         }
     }
@@ -161,9 +157,8 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     //此InsideURL未找到匹配者,此消息被丢弃
     else{
         if (event.completion) {
-            NSError *error = [NSError errorWithDomain:ALURLErrorDomain
-                                                 code:ALURLErrorCodeNotFound
-                                             userInfo:nil];
+            NSError *error = [NSError ALURLErrorWithCode:ALURLErrorCodeNotFound
+                                                     msg:@"URL has no handler"];
             event.completion(event,nil,error);
         }
     }
@@ -184,9 +179,8 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     //NSURL创建失败说明url格式不合法
     if(!event.url){
         if (event.completion) {
-            NSError *error = [NSError errorWithDomain:ALURLErrorDomain
-                                                 code:ALURLErrorCodeURLInvalid
-                                             userInfo:nil];
+            NSError *error = [NSError ALURLErrorWithCode:ALURLErrorCodeURLInvalid
+                                                     msg:@"URL format is not valid"];
             event.completion(event,nil,error);
         }
     }
@@ -204,9 +198,8 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     }
     //未找到此InsideURL的匹配者
     else{
-        *error = [NSError errorWithDomain:ALURLErrorDomain
-                                     code:ALURLErrorCodeNotFound
-                                 userInfo:nil];
+        *error = [NSError ALURLErrorWithCode:ALURLErrorCodeNotFound
+                                         msg:@"URL has no handler"];
         return nil;
     }
     return nil;

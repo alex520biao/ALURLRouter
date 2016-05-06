@@ -8,15 +8,6 @@
 #import <Foundation/Foundation.h>
 #import "ALURLProtocol.h"
 
-//ALURL的错误域(类似HttpStatusCode)
-FOUNDATION_EXPORT NSString *const ALURLErrorDomain;
-
-//此URL未找到接收者
-FOUNDATION_EXPORT NSInteger const ALURLErrorCodeNotFound;
-
-//URL格式不合法
-FOUNDATION_EXPORT NSInteger const ALURLErrorCodeURLInvalid;
-
 @class ALURLEvent;
 
 

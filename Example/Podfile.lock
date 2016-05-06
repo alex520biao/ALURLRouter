@@ -1,5 +1,5 @@
 PODS:
-  - ALURLRouter (0.1.0)
+  - ALURLRouter (0.1.1)
   - Expecta (1.0.5)
   - PXAlertView (0.1.1)
   - Specta (1.0.5)
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  ALURLRouter: cc89ec7209e501b28c3afb795c6a3d5126b45be6
+  ALURLRouter: 91d7a450bd7d9ed7e306eee5ea9af69cbcb96047
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   PXAlertView: bb8a7e6bb95f73fe3fe091cacd279b683460f084
   Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
