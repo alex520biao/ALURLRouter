@@ -47,8 +47,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(BOOL)addService:(Class)class serviceId:(NSString*)serviceId{
-    if (!class) {
+-(BOOL)addService:(Class)aClass serviceId:(NSString*)serviceId{
+    if (!aClass) {
         //传入类为空
         return NO;
     }
@@ -71,7 +71,7 @@
     }
     
     ALServiceItem *item = [[ALServiceItem alloc] init];
-    item.className = NSStringFromClass(class);
+    item.className = NSStringFromClass(aClass);
     item.businessId = serviceId;
     [self.productConfigDict setValue:item forKey:serviceId];
     

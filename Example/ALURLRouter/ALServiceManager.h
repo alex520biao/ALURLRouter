@@ -16,7 +16,7 @@ typedef void (^SetupBlcok)(ALBaseService *service);
 
 + (instancetype)sharedInstance;
 
--(BOOL)addService:(Class)class serviceId:(NSString*)serviceId;
+-(BOOL)addService:(Class)aClass serviceId:(NSString*)serviceId;
 
 /**
  *  @brief  根据keyStr获取当前产品线实例

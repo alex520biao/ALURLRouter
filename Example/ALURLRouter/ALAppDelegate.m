@@ -39,7 +39,7 @@
     //根据在注册表创建实例化对象
     __weak typeof(self) weakSelf = self;
     [[ALServiceManager sharedInstance] setupProducts:^(ALBaseService *service) {
-        //属性依赖注入
+        //基础属性依赖注入
         service.urlRouter = weakSelf.urlRouter;
         
         if([service isKindOfClass:[ALMarketingService class]]){
