@@ -521,7 +521,7 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
  *  @return
  */
 +(NSMutableDictionary*)launchOptionsWithOpenURL{
-    //来源为safari浏览器
+    //模拟safari浏览器打开OpenURL
     NSString *sourceApplication = @"com.apple.mobilesafari";
     NSURL *openURL = [NSURL URLWithString:@"alex://com.alex.ALURLRouter-Example/marketing/webpage?weburl=http%3a%2f%2fwww.hao123.com%2f"];
     NSMutableDictionary *launchOptions = [NSMutableDictionary dictionaryWithObjectsAndKeys:

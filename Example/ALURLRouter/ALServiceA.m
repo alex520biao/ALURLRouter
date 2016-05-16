@@ -24,7 +24,7 @@
     [self.urlRouter registerURLPattern:@"alex://com.alex.ALURLRouter-Example/sercieA/action1"
                             handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
                                 //判断消息来源
-                                if (event.inside) {
+                                if(event.channel==ALURLChannel_InsideURL){
                                     //InsideURL
                                     
                                     //处理业务逻辑

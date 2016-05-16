@@ -16,15 +16,13 @@
 
 #pragma mark - ALURL渠道来源(OpenURL/InsideURL)
 /*!
- *  @brief 此AOU消息调用者为应用内 YES为同应用内调起 / NO为外部应用调起
- *  @note  DCAOUManager的handleInsideURL方法传递URL消息则inside返回YES
- *         (sourceApplication与当前应用bundleIdentifier相同)
+ *  @brief 此消息调用渠道 ALURLChannel_InsideURL为应用内调起 / ALURLChannel_OpenURL为外部应用调起
  *
  */
-@property (nonatomic, assign, readonly) BOOL inside;
+@property (nonatomic, assign, readonly) ALURLChannel channel;
 
 /*!
- *  @brief 原始InsideURL
+ *  @brief 原始URL
  */
 @property (nonatomic, copy, readonly) NSURL *url;
 
@@ -99,6 +97,16 @@
 @property (nonatomic, copy, readonly) ALURLCompletedBlcok completion;
 
 #pragma mark - 构造方法
+/*!
+ *  @brief 构造InsideURL
+ *
+ *  @param url
+ *  @param userInfo
+ *  @param progress
+ *  @param completion
+ *
+ *  @return
+ */
 - (instancetype)initWithInsideURL:(NSURL *)url
                          userInfo:(NSDictionary*)userInfo
                          progress:(ALURLProgressBlcok)progress

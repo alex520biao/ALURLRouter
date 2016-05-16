@@ -10,6 +10,24 @@
 #define ALURLProtocol_h
 
 /*!
+ *  @brief  ALURL的来源渠道
+ *  @note   区分消息到达客户端的不同场景,客户端需要进行不同的处理。
+ */
+typedef NS_ENUM(NSInteger, ALURLChannel) {
+    /*
+     应用内部模块间InsideURL调用
+     */
+    ALURLChannel_InsideURL,
+    
+    /*
+     应用外部app间OpenURL调用。
+     必须经过appdelegate的回调方法-application:didFinishLaunchingWithOptions:和-application:openURL:sourceApplication:annotation:
+     */
+    ALURLChannel_OpenURL
+};
+
+
+/*!
  *  @brief  AOU消息传递到客户端的场景
  *  @note   区分消息到达客户端的不同场景,客户端需要进行不同的处理。
  */

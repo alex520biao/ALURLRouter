@@ -89,7 +89,7 @@
                                                                             msg:@"XXXXX错误"];
                                        }
                                        
-                                       if(event.inside){
+                                       if(event.channel==ALURLChannel_InsideURL){
                                            //处理中
                                            if (event.progress) {
                                                NSMutableDictionary *dict = [NSMutableDictionary dictionary];

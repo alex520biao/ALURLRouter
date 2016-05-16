@@ -64,12 +64,10 @@
 
 
 /*!
- *  @brief 此AOU消息调用者为应用内 YES为应用内/ NO为外部应用调起
- *  @note  DCAOUManager的handleInsideURL方法传递URL消息则inside返回YES
- *         (sourceApplication与当前应用bundleIdentifier相同)
+ *  @brief 此消息调用渠道 ALURLChannel_InsideURL为应用内调起 / ALURLChannel_OpenURL为外部应用调起
  *
  */
-@property (nonatomic, assign, readwrite) BOOL inside;
+@property (nonatomic, assign, readwrite) ALURLChannel channel;
 
 /*!
  *  @brief  程序通过此OpenURL启动
@@ -103,7 +101,7 @@
         self.completion = completion;
         _userInfo       = userInfo;
         //此消息为InsideURL
-        _inside         = YES;
+        _channel         = ALURLChannel_InsideURL;
         
         if (self.url) {
             //url schemed
@@ -147,7 +145,7 @@
         self.launch            = launch;
         _userInfo              = userInfo;
         //此消息为OpenURL
-        _inside                = NO;
+        _channel               = ALURLChannel_OpenURL;
         
         _applicationState = [UIApplication sharedApplication].applicationState;
         if (launch) {
