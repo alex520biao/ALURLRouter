@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "ALURLRouter"
-  s.version          = "0.1.1"
+  s.version          = "0.1.2"
   s.summary          = "ALURLRouter description"
   s.description      = <<-DESC.gsub(/^\s*\|?/,'')
                        ALURLRouter is a tool of modularization.
