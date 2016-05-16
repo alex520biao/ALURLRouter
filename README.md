@@ -1,12 +1,12 @@
 # ALURLRouter
 
-简明扼要的描述功能
+强大而灵活的iOS组件化实施方案,模块间解耦URL工具
 
-
-1. ALURLRouter可以得到任务处理进度，处理结果:成功/失败,成功信息/失败NSError
-2. ALURLRouter有返回值
-3. ALURLRouter参数更灵活,不仅限于url的query字符。而且可以是系统通用的类型如UIImage、NSDate等。
-4. 可以实现灵活的权限控制
+1. 可以同时满足OpenURL与InsideURL的处理需求
+2. ALInsideURL可以得到任务处理进度，处理结果:成功/失败,成功信息/失败NSError
+3. ALInsideURL有返回值
+4. ALInsideURL参数更灵活,不仅限于url的query字符。而且可以是系统通用的类型如UIImage、NSDate等。
+5. 可以针对ALInsideURL和ALOpenURL实现灵活的权限控制
 
 ## 维护者
 
