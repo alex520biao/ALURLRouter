@@ -26,14 +26,14 @@
  *  @param URLPattern 为URL即?前部分(不带参数)，如 app://serviceA/action1
  *  @param handler    URLPattern的处理block
  */
-- (void)registerURLPattern:(NSString *)URLPattern handler:(ALURLEventHandler)handler;
+- (void)registerURLPattern:(ALURLPattern *)URLPattern handler:(ALURLEventHandler)handler;
 
 /**
  *  撤销某个URL Pattern
  *
  *  @param URLPattern
  */
-- (void)deregisterURLPattern:(NSString *)URLPattern;
+- (void)deregisterURLPattern:(ALURLPattern *)URLPattern;
 
 /**
  *  是否可以调用URL

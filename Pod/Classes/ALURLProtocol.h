@@ -51,11 +51,16 @@ typedef NS_ENUM(NSInteger, AOUMsgSceneType) {
     AOUMsgSceneType_Active
 };
 
-
 /*!
  *  @brief 任务进度: DCProgress类型为CGFloat,值域为[0~1],超出值域赋值无效
  */
 typedef CGFloat ALProgress;
+
+/*!
+ *  @brief URLPattern 匹配字符串: 简单匹配则为URL的host+path部分
+ *  @note  URLPattern 可定义更为复杂的匹配规则(如通配符*)
+ */
+typedef NSString ALURLPattern;
 
 @class ALURLEvent;
 
