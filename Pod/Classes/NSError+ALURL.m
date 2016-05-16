@@ -25,9 +25,6 @@ NSInteger const ALURLErrorCodeURLInvalid = 905;
     NSError *error = [NSError errorWithDomain:ALURLErrorDomain
                                          code:errorCode
                                      userInfo:userInfo];
-    
-
-
     return error;
 }
 

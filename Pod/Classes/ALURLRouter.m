@@ -27,6 +27,18 @@ NSString *const ALURLRouterParameterProgress = @"ALURLManagerParameterProgress";
 NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompletion";
 
 @interface ALURLRouter ()
+
+
+/*!
+ *  @brief  如果程序通过OpenURL启动,则保存程序启动的AOUEvent
+ */
+@property (nonatomic,strong)ALURLEvent *launchAOUEvent;
+
+/*!
+ *  @brief  当前如果app初始化工作尚未完成或者其他原因不能继续分发消息则需要暂时保留url,等待完成之后继续分发
+ */
+@property (nonatomic,strong)ALURLEvent *tempOpenURLEvent;
+
 /**
  *  保存了所有已注册的 URL
  *  结构类似 @{@"beauty": @{@":id": {@"__block", [block copy]}}}
@@ -45,8 +57,12 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     [self removeURLPattern:URLPattern];
 }
 
-- (BOOL)canCallURL:(NSString *)URL{
-    return [self extractParametersFromURL:URL] ? YES : NO;
+- (BOOL)canCallURL:(NSURL *)URL{
+    if (URL) {
+        return [self extractParametersFromURL:[URL absoluteString]] ? YES : NO;
+    }else{
+        return NO;
+    }
 }
 
 - (void)addURLPattern:(NSString *)URLPattern andHandler:(ALURLEventHandler)handler{
@@ -109,21 +125,27 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     }
 }
 
-#pragma mark - openURL
-- (void)callInsideURL:(NSString *)URL{
+#pragma mark - callInsideURL
+- (void)callInsideURL:(NSURL *)URL{
     [self callInsideURL:URL
            withUserInfo:nil
                progress:nil
               completed:nil];
 }
 
-- (void)callInsideURL:(NSString *)URL
+- (void)callInsideURL:(NSURL *)URL
          withUserInfo:(NSDictionary *)userInfo
              progress:(ALURLProgressBlcok)progress
             completed:(ALURLCompletedBlcok)completed{
-    URL = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSMutableDictionary *matcher = [self extractParametersFromURL:URL];
-    ALURLEvent *event = [[ALURLEvent alloc] initWithInsideURL:[NSURL URLWithString:URL]
+    //URL格式不正确
+    if(!URL && completed){
+        NSError *error = [NSError ALURLErrorWithCode:ALURLErrorCodeURLInvalid
+                                                 msg:@"URL is invalid"];
+        completed(nil,nil,error);
+    }
+
+    NSMutableDictionary *matcher = [self extractParametersFromURL:[URL absoluteString]];
+    ALURLEvent *event = [[ALURLEvent alloc] initWithInsideURL:URL
                                                      userInfo:userInfo
                                                      progress:progress
                                                    completion:completed];
@@ -164,14 +186,20 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     }
 }
 
-- (id)callInsideURLSync:(NSString *)URL
+- (id)callInsideURLSync:(NSURL *)URL
            withUserInfo:(NSDictionary *)userInfo
                   error:(NSError **)error{
-    URL = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSMutableDictionary *matcher = [self extractParametersFromURL:URL];
+    //URL格式不正确
+    if(!URL){
+        *error = [NSError ALURLErrorWithCode:ALURLErrorCodeURLInvalid
+                                         msg:@"URL is invalid"];
+        return nil;
+    }
+
+    NSMutableDictionary *matcher = [self extractParametersFromURL:[URL absoluteString]];
     ALURLEventHandler handler = matcher[ALURL_BLOCK];
     
-    ALURLEvent *event = [[ALURLEvent alloc] initWithInsideURL:[NSURL URLWithString:URL]
+    ALURLEvent *event = [[ALURLEvent alloc] initWithInsideURL:URL
                                                      userInfo:userInfo
                                                      progress:nil
                                                    completion:nil];
@@ -205,8 +233,135 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     return nil;
 }
 
-- (id)callInsideURLSync:(NSString *)URL{
+- (id)callInsideURLSync:(NSURL *)URL{
     return [self callInsideURLSync:URL withUserInfo:nil error:nil];
+}
+
+#pragma mark - handleOpenURL
+/*!
+ *  @brief 封装并分发AOUEvent
+ *  @note  默认不延迟分发
+ *
+ *  @param url
+ *  @param sourceApplication
+ *  @param annotation
+ *  @param moreInfo 接收到OpenURL时程序自定义的一些附加参数
+ *
+ *  @return
+ */
+- (BOOL)handleOpenURL:(NSURL *)url
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation
+                 temp:(BOOL)temp
+             moreInfo:(NSDictionary*)moreInfo{
+    BOOL launch = NO;
+    //launchAOUEvent不为空且与当前url相同则此url启动应用
+    if (self.launchAOUEvent && [self.launchAOUEvent.url.absoluteString isEqualToString:url.absoluteString]) {
+        launch = YES;
+        //清空launchAOUEvent
+        self.launchAOUEvent = nil;
+    }
+    
+    //外部调起消息封装
+    ALURLEvent *event = [[ALURLEvent alloc] initWithOpenURL:url
+                                                     source:sourceApplication
+                                                 annotation:annotation
+                                                   userInfo:moreInfo
+                                                     launch:NO];
+    //判断是否属于黑名单则拒绝调用
+    //    if([event.sourceApplication isEqualToString:@"XXXXX"]){
+    //        return NO;
+    //    }
+    
+    //是否需要暂存
+    if(temp){
+        //缓存event,等待外部触发distributeTempAOUEvent才下发event
+        self.tempOpenURLEvent = event;
+    }else{
+        //立即下发event
+        [self distributeALURLEvent:event];
+    }
+    return YES;
+}
+
+/*!
+ *  @brief  程序通过openURL启动,处理application:didFinishLaunchingWithOptions方法的launchOptions
+ *  @note   如果openURL启动程序,只保存launchOpenURL,无需向下分发。url会通过handleOpenURL方法传递并分发。
+ *
+ *  @param  launchOptions 程序启动参数
+ *
+ */
+- (void)handleOpenURLWithLaunchOptions:(NSDictionary*)launchOptions userInfo:(NSDictionary*)userInfo{
+    NSString *sourceApplication = [launchOptions objectForKey:UIApplicationLaunchOptionsSourceApplicationKey];
+    NSURL *openURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+    
+    //如果openURL启动程序,只保存launchOpenURL,无需向下分发
+    if (openURL) {
+        ALURLEvent *event = [[ALURLEvent alloc] initWithOpenURL:openURL
+                                                         source:sourceApplication
+                                                     annotation:nil
+                                                       userInfo:nil
+                                                         launch:YES];
+        self.launchAOUEvent = event;
+    }
+}
+
+/*!
+ *  @brief 如果tempAOUEvent不为空则将tempAOUEvent继续向下分发,然后清空tempAOUEvent
+ *
+ */
+- (void)distributeTempOpenURLEvent{
+    if(self.tempOpenURLEvent){
+        //下发并清空tempAOUEvent
+        [self distributeALURLEvent:self.tempOpenURLEvent];
+        self.tempOpenURLEvent = nil;
+    }
+}
+
+#pragma mark - Private
+/*!
+ *  @brief 如果tempAOUEvent不为空则将tempAOUEvent继续向下分发,然后清空tempAOUEvent
+ *
+ */
+- (void)distributeALURLEvent:(ALURLEvent*)event{    
+    NSMutableDictionary *matcher = [self extractParametersFromURL:event.url.absoluteString];
+    
+    //找到接收者并处理
+    if (matcher) {
+        ALURLEventHandler handler = matcher[ALURL_BLOCK];
+        if (event.progress) {
+            matcher[ALURLRouterParameterProgress] = event.progress;
+        }
+        if (event.completion) {
+            matcher[ALURLRouterParameterCompletion] = event.completion;
+        }
+        if (event.userInfo) {
+            matcher[ALURLRouterParameterUserInfo] = event.userInfo;
+        }
+        if (handler) {
+            [matcher removeObjectForKey:ALURL_BLOCK];
+            
+            //保证回调在主线程中执行
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSError *error = nil;
+                handler(event,&error);
+            });
+        }
+    }
+    //此InsideURL未找到匹配者,此消息被丢弃
+    else{
+        if (event.completion) {
+            //保证回调在主线程中执行
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSError *error = [NSError ALURLErrorWithCode:ALURLErrorCodeNotFound
+                                                         msg:@"URL has no handler"];
+                event.completion(event,nil,error);
+            });
+        }
+    }
+    
+    //        //检查并删除已失效的监听者
+    //        [self checkDelegateDict];
 }
 
 #pragma mark - Utils
@@ -357,5 +512,23 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     
     return [items componentsJoinedByString:@""];
 }
+
+#pragma mark - LaunchOptionsWithOpenURL Test
+/*!
+ *  @brief 模拟open url启动app所需launchOptions
+ *  @note  可在application:didFinishLaunchingWithOptions中给launchOptions赋值用于模拟open url启动app
+ *
+ *  @return
+ */
++(NSMutableDictionary*)launchOptionsWithOpenURL{
+    //来源为safari浏览器
+    NSString *sourceApplication = @"com.apple.mobilesafari";
+    NSURL *openURL = [NSURL URLWithString:@"alex://com.alex.ALURLRouter-Example/marketing/webpage?weburl=http%3a%2f%2fwww.hao123.com%2f"];
+    NSMutableDictionary *launchOptions = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                          openURL,UIApplicationLaunchOptionsURLKey,
+                                          sourceApplication,UIApplicationLaunchOptionsSourceApplicationKey,nil];
+    return launchOptions;
+}
+
 
 @end

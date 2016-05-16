@@ -53,7 +53,21 @@
         }
     }];
     
+    //接收并处理OpenURL消息
+    [self.urlRouter handleOpenURLWithLaunchOptions:launchOptions
+                                          userInfo:nil];
+    
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation NS_DEPRECATED_IOS(4_2, 9_0, "Please use application:openURL:options:") __TVOS_PROHIBITED{
+
+    //接收并处理OpenURL消息
+    return [self.urlRouter handleOpenURL:url
+                       sourceApplication:sourceApplication
+                              annotation:annotation
+                                    temp:NO
+                                moreInfo:nil];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

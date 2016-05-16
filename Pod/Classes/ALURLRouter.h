@@ -38,11 +38,11 @@
 /**
  *  是否可以调用URL
  *
- *  @param URL
+ *  @param URL 使用NSURL类型较好。使用NSString存在合法性检查的问题。
  *
  *  @return
  */
-- (BOOL)canCallURL:(NSString *)URL;
+- (BOOL)canCallURL:(NSURL *)URL;
 
 #pragma mark - callInsideURL(异步)
 /**
@@ -51,7 +51,7 @@
  *
  *  @param URL 带 Scheme，如 app://serviceA/action1。 InsideURL请参考文档。
  */
-- (void)callInsideURL:(NSString *)URL;
+- (void)callInsideURL:(NSURL *)URL;
 
 /**
  *  调用此URL,结果通过异步block返回
@@ -62,7 +62,7 @@
  *  @param progress   URL处理进度的backblock
  *  @param completed  URL处理完成后的backblock
  */
-- (void)callInsideURL:(NSString *)URL
+- (void)callInsideURL:(NSURL *)URL
          withUserInfo:(NSDictionary *)userInfo
              progress:(ALURLProgressBlcok)progress
             completed:(ALURLCompletedBlcok)completed;
@@ -74,7 +74,7 @@
  *
  *  @param URL
  */
-- (id)callInsideURLSync:(NSString *)URL;
+- (id)callInsideURLSync:(NSURL *)URL;
 
 /**
  * 调用此URL并得到一个返回值
@@ -83,8 +83,42 @@
  *  @param URL
  *  @param userInfo 除URL之外的更多信息,必须是非自定义通用类型: 基础数据类型(NSString、NSNumber等)、系统Foundation、UIKit等框架类型(NSData、UIImage等)、或者是双方模块公有类型
  */
-- (id)callInsideURLSync:(NSString *)URL
+- (id)callInsideURLSync:(NSURL *)URL
            withUserInfo:(NSDictionary *)userInfo
                   error:(NSError **)error;
+
+#pragma mark - handleOpenURL
+/*!
+ *  @brief 程序通过openURL启动,处理application:didFinishLaunchingWithOptions方法的launchOptions
+ *  @note   如果openURL启动程序,只保存launchOpenURL,无需向下分发。url会通过handleOpenURL方法传递并分发。
+ *
+ *  @param launchOptions 程序启动参数,application:didFinishLaunchingWithOptions方法的launchOptions
+ *  @param userInfo      附加信息
+ */
+- (void)handleOpenURLWithLaunchOptions:(NSDictionary*)launchOptions userInfo:(NSDictionary*)userInfo;
+
+/*!
+ *  @brief 封装并分发AOUEvent
+ *  @note  默认不延迟分发
+ *
+ *  @param url
+ *  @param sourceApplication
+ *  @param annotation
+ *  @param moreInfo 接收到OpenURL时程序自定义的一些附加参数
+ *
+ *  @return
+ */
+- (BOOL)handleOpenURL:(NSURL *)url
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation
+                 temp:(BOOL)temp
+             moreInfo:(NSDictionary*)moreInfo;
+
+/*!
+ *  @brief 如果tempAOUEvent不为空则将tempAOUEvent继续向下分发,然后清空tempAOUEvent
+ *  @note  此方法与handleOpenURL的temp参数配合使用，用于需要延迟下发URL的长场景
+ *
+ */
+- (void)distributeTempOpenURLEvent;
 
 @end

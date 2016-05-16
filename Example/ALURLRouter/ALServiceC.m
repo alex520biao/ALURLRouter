@@ -21,7 +21,9 @@
     if (action==0) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setObject:@"ADSDSAD" forKey:@"userId"];
-        [self.urlRouter callInsideURL:@"app://identifier/sercieA/action1/a?orderId=123456&error=0"
+        
+        NSURL *URL = [NSURL URLWithString:@"alex://com.alex.ALURLRouter-Example/sercieA/action1/a?orderId=123456&error=0"];
+        [self.urlRouter callInsideURL:URL
                       withUserInfo:dict
                           progress:^(ALURLEvent *event, ALProgress progress, NSDictionary *moreInfo) {
                               NSLog(@"progress");
@@ -49,11 +51,12 @@
                           }];
 
     }else if (action==1){
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setObject:@"ADSDSAD" forKey:@"userId"];
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+        [userInfo setObject:@"ADSDSAD" forKey:@"userId"];
         
-        [self.urlRouter callInsideURL:@"app://identifier/marketing/webpage"
-                      withUserInfo:dict
+        NSURL *URL = [NSURL URLWithString:@"alex://com.alex.ALURLRouter-Example/marketing/webpage?weburl=http%3a%2f%2fwww.hao123.com%2f"];
+        [self.urlRouter callInsideURL:URL
+                      withUserInfo:userInfo
                           progress:^(ALURLEvent *event, ALProgress progress, NSDictionary *moreInfo) {
                               NSLog(@"progress");
                           } completed:^(ALURLEvent *event, id result, NSError *error) {
@@ -82,7 +85,8 @@
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setObject:@"ADSDSAD" forKey:@"userId"];
         
-        [self.urlRouter callInsideURL:@"app://identifier/marketing/alert"
+        NSURL *URL = [NSURL URLWithString:@"alex://com.alex.ALURLRouter-Example/marketing/alert"];
+        [self.urlRouter callInsideURL:URL
                       withUserInfo:dict
                           progress:^(ALURLEvent *event, ALProgress progress, NSDictionary *moreInfo) {
                               NSLog(@"progress");
@@ -100,10 +104,10 @@
                           }];
     }else if (action==3){
         //打开http或https协议URL
-        [self.urlRouter callInsideURL:@"http://xiaojukeji.com/abc"];
+        [self.urlRouter callInsideURL:[NSURL URLWithString:@"http://xiaojukeji.com/abc"]];
     }else if (action==4){
         //打开http或https协议URL
-        [self.urlRouter callInsideURL:@"https://xiaojukeji.com/efg"];
+        [self.urlRouter callInsideURL:[NSURL URLWithString:@"https://xiaojukeji.com/efg"]];
     }
 }
 

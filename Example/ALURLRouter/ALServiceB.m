@@ -21,7 +21,7 @@
     [super serviceDidLoad];
     
     //ServiceB监听自己相关业务消息
-    [self.urlRouter registerURLPattern:@"app://identifier/sercieB/action1"
+    [self.urlRouter registerURLPattern:@"alex://com.alex.ALURLRouter-Example/sercieB/action1"
                             handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
                                //处理中
                                if (event.progress) {

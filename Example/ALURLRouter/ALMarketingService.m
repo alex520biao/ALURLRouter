@@ -64,7 +64,7 @@
     
     
     //异步处理运营通用web页
-    [self.urlRouter registerURLPattern:@"app://identifier/marketing"
+    [self.urlRouter registerURLPattern:@"alex://com.alex.ALURLRouter-Example/marketing"
                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
                                    
                                    //异步处理运营通用web页
@@ -78,15 +78,10 @@
                                        [delegate.naviController pushViewController:webVC
                                                                           animated:YES];
                                        
-                                       NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.hao123.com/"]];
+                                       NSString *url = [event.queryDict objectForKey:@"weburl"];
+                                       url = [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                                       NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
                                        [webVC.webView loadRequest:request];
-                                       
-                                       //处理中
-                                       if (event.progress) {
-                                           NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-                                           [dict setObject:@"进度50%" forKey:@"descr"];
-                                           event.progress(event,0.5,dict);
-                                       }
                                        
                                        //此服务已不可用
                                        if([[event.queryDict objectForKey:@"error"] integerValue]==1){
@@ -94,9 +89,20 @@
                                                                             msg:@"XXXXX错误"];
                                        }
                                        
-                                       //事件处理完成回调
-                                       if (event.completion) {
-                                           event.completion(event,@"运营webpage已展示",*error);
+                                       if(event.inside){
+                                           //处理中
+                                           if (event.progress) {
+                                               NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+                                               [dict setObject:@"进度50%" forKey:@"descr"];
+                                               event.progress(event,0.5,dict);
+                                           }
+                                           
+                                           
+                                           
+                                           //事件处理完成回调
+                                           if (event.completion) {
+                                               event.completion(event,@"运营webpage已展示",*error);
+                                           }
                                        }
                                        
                                        //如果URL为同步处理过程则需要返回值
