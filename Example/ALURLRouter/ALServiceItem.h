@@ -18,7 +18,7 @@ typedef NSString ALServiceId;
 /**
  *  @brief  产品线唯一标识
  */
-@property(nonatomic,copy) ALServiceId *businessId;
+@property(nonatomic,copy) ALServiceId *serviceId;
 
 /**
  *  @brief  产品线实体类名

@@ -7,7 +7,7 @@
 //
 
 #import "ALBaseService.h"
-
+#import "ALServiceItem.h"
 
 //定义Blocks类型
 typedef void (^SetupBlcok)(ALBaseService *service);
@@ -16,15 +16,15 @@ typedef void (^SetupBlcok)(ALBaseService *service);
 
 + (instancetype)sharedInstance;
 
--(BOOL)addService:(Class)aClass serviceId:(NSString*)serviceId;
+-(BOOL)addService:(Class)aClass serviceId:(ALServiceId*)serviceId;
 
 /**
  *  @brief  根据keyStr获取当前产品线实例
  */
-- (id)productForKeyStr:(NSString *)keyStr;
+- (id)objectWithServiceId:(ALServiceId *)serviceId;
 
 /**
- *  @brief  根据当前ONEProductItem中的className实例化productDelegate
+ *  @brief  根据当前ALServiceItem中的className实例化productDelegate
  */
 - (void)setupProducts:(SetupBlcok)block;
 

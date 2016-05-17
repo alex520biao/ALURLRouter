@@ -13,9 +13,9 @@
 @interface ALServiceManager ()
 /**
  *  @brief  产品线类名配置
- *  @note   数组元素为ONEProductItem类型
+ *  @note   数组元素为ALServiceItem类型
  */
-@property (nonatomic, strong, readwrite) NSMutableDictionary *productConfigDict;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *objectConfigDict;
 
 @end
 
@@ -36,7 +36,7 @@
     self = [super init];
     
     if (self) {
-        _productConfigDict = [[NSMutableDictionary alloc] init];
+        _objectConfigDict = [[NSMutableDictionary alloc] init];
 
     }
     
@@ -47,23 +47,23 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(BOOL)addService:(Class)aClass serviceId:(NSString*)serviceId{
+-(BOOL)addService:(Class)aClass serviceId:(ALServiceId*)serviceId{
     if (!aClass) {
         //传入类为空
         return NO;
     }
     
-//    if (![class conformsToProtocol:@protocol(ONEBusinessModule)]) {
-//        //未实现 ONEBusinessModule 协议!
-//        return NO;
-//    }
+    if (![aClass conformsToProtocol:@protocol(ALBaseServiceProtocol)]) {
+        //未实现 ALBaseServiceProtocol 协议!
+        return NO;
+    }
     
-//    if (![TRValidJudge isValidString:serviceId]) {
-//        LogError(@"bid 非法: [%@]", serviceId);
-//        return NO;
-//    }
+    if (!serviceId || serviceId.length == 0) {
+        //serviceId非法
+        return NO;
+    }
     
-    BOOL isExist = [self productForKeyStr:serviceId] != nil;
+    BOOL isExist = [self objectWithServiceId:serviceId] != nil;
     
     if (isExist) {
 //        LogError(@"%@ %@ 产品线已存在！", NSStringFromClass(plClass), bid);
@@ -72,21 +72,21 @@
     
     ALServiceItem *item = [[ALServiceItem alloc] init];
     item.className = NSStringFromClass(aClass);
-    item.businessId = serviceId;
-    [self.productConfigDict setValue:item forKey:serviceId];
+    item.serviceId = serviceId;
+    [self.objectConfigDict setValue:item forKey:serviceId];
     
     return YES;
 }
 
 /**
- *  @brief  根据当前ONEProductItem中的className实例化productDelegate
+ *  @brief  根据当前ALServiceItem中的className实例化对象
  */
 - (void)setupProducts:(SetupBlcok)block{
-    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:self.productConfigDict];
+    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:self.objectConfigDict];
     [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
          ALServiceItem *item = (ALServiceItem *)obj;
          
-         //根据className实例对象,class必须实现ONEBusinessModule协议
+         //根据className实例对象,class必须实现协议
          if (!item.service) {
              ALBaseService *service = (ALBaseService*)[[NSClassFromString(item.className) alloc] init];
              item.service = service;
@@ -107,9 +107,9 @@
 /**
  *  @brief  根据keyStr获取当前产品线实例
  */
-- (id)productForKeyStr:(NSString *)keyStr {
-    if (keyStr && [keyStr isKindOfClass:[NSString class]] && keyStr.length > 0) {
-        ALServiceItem *item  = [self.productConfigDict objectForKey:keyStr];
+- (id)objectWithServiceId:(ALServiceId *)serviceId {
+    if (serviceId && [serviceId isKindOfClass:[NSString class]] && serviceId.length > 0) {
+        ALServiceItem *item  = [self.objectConfigDict objectForKey:serviceId];
         
         if (item.service) {
             return item.service;
@@ -122,9 +122,9 @@
 /**
  *  @brief  根据keyStr获取当前产品线实例
  */
-- (ALServiceItem *)productItemForKeyStr:(NSString *)keyStr {
-    if (keyStr && [keyStr isKindOfClass:[NSString class]] && keyStr.length > 0) {
-        ALServiceItem *item  = [self.productConfigDict objectForKey:keyStr];
+- (ALServiceItem *)productItemForKeyStr:(ALServiceId *)serviceId {
+    if (serviceId && [serviceId isKindOfClass:[NSString class]] && serviceId.length > 0) {
+        ALServiceItem *item  = [self.objectConfigDict objectForKey:serviceId];
         
         if (item) {
             return item;
