@@ -71,7 +71,7 @@
 /*!
  *  @brief  程序通过此OpenURL启动
  */
-@property (nonatomic, assign, readonly) AOUMsgSceneType sceneType;
+@property (nonatomic, assign, readonly) ALURLSceneType sceneType;
 
 /*!
  *  @brief  OpenURL事件发起应用的identifier,如: safari浏览器 com.apple.mobilesafari

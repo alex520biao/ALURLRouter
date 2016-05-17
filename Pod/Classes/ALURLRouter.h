@@ -98,7 +98,7 @@
 - (void)handleOpenURLWithLaunchOptions:(NSDictionary*)launchOptions userInfo:(NSDictionary*)userInfo;
 
 /*!
- *  @brief 封装并分发AOUEvent
+ *  @brief 封装并分发OpenURL
  *  @note  默认不延迟分发
  *
  *  @param url
@@ -115,7 +115,7 @@
              moreInfo:(NSDictionary*)moreInfo;
 
 /*!
- *  @brief 如果tempAOUEvent不为空则将tempAOUEvent继续向下分发,然后清空tempAOUEvent
+ *  @brief 如果tempOpenURLEvent不为空则将TempOpenURLEvent继续向下分发,然后清空tempOpenURLEvent
  *  @note  此方法与handleOpenURL的temp参数配合使用，用于需要延迟下发URL的长场景
  *
  */

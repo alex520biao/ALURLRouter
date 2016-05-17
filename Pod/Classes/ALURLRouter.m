@@ -30,9 +30,9 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
 
 
 /*!
- *  @brief  如果程序通过OpenURL启动,则保存程序启动的AOUEvent
+ *  @brief  如果程序通过OpenURL启动,则保存程序启动的ALURLEvent
  */
-@property (nonatomic,strong)ALURLEvent *launchAOUEvent;
+@property (nonatomic,strong)ALURLEvent *launchALURLEvent;
 
 /*!
  *  @brief  当前如果app初始化工作尚未完成或者其他原因不能继续分发消息则需要暂时保留url,等待完成之后继续分发
@@ -239,7 +239,7 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
 
 #pragma mark - handleOpenURL
 /*!
- *  @brief 封装并分发AOUEvent
+ *  @brief 封装并分发OpenURL
  *  @note  默认不延迟分发
  *
  *  @param url
@@ -255,11 +255,11 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
                  temp:(BOOL)temp
              moreInfo:(NSDictionary*)moreInfo{
     BOOL launch = NO;
-    //launchAOUEvent不为空且与当前url相同则此url启动应用
-    if (self.launchAOUEvent && [self.launchAOUEvent.url.absoluteString isEqualToString:url.absoluteString]) {
+    //launchALURLEvent不为空且与当前url相同则此url启动应用
+    if (self.launchALURLEvent && [self.launchALURLEvent.url.absoluteString isEqualToString:url.absoluteString]) {
         launch = YES;
-        //清空launchAOUEvent
-        self.launchAOUEvent = nil;
+        //清空launchALURLEvent
+        self.launchALURLEvent = nil;
     }
     
     //外部调起消息封装
@@ -275,7 +275,7 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     
     //是否需要暂存
     if(temp){
-        //缓存event,等待外部触发distributeTempAOUEvent才下发event
+        //缓存event,等待外部触发distributeTempALURLEvent才下发event
         self.tempOpenURLEvent = event;
     }else{
         //立即下发event
@@ -302,17 +302,17 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
                                                      annotation:nil
                                                        userInfo:nil
                                                          launch:YES];
-        self.launchAOUEvent = event;
+        self.launchALURLEvent = event;
     }
 }
 
 /*!
- *  @brief 如果tempAOUEvent不为空则将tempAOUEvent继续向下分发,然后清空tempAOUEvent
+ *  @brief 如果tempOpenURLEvent不为空则将tempOpenURLEvent继续向下分发,然后清空tempOpenURLEvent
  *
  */
 - (void)distributeTempOpenURLEvent{
     if(self.tempOpenURLEvent){
-        //下发并清空tempAOUEvent
+        //下发并清空tempOpenURLEvent
         [self distributeALURLEvent:self.tempOpenURLEvent];
         self.tempOpenURLEvent = nil;
     }
@@ -320,7 +320,7 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
 
 #pragma mark - Private
 /*!
- *  @brief 如果tempAOUEvent不为空则将tempAOUEvent继续向下分发,然后清空tempAOUEvent
+ *  @brief 如果tempOpenURLEvent不为空则将tempOpenURLEvent继续向下分发,然后清空tempOpenURLEvent
  *
  */
 - (void)distributeALURLEvent:(ALURLEvent*)event{    

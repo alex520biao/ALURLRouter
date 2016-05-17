@@ -1,5 +1,5 @@
 //
-//  DCInsideEvent.m
+//  ALURLEvent.m
 //  Pods
 //
 //  Created by alex520biao on 16/4/5.
@@ -72,7 +72,7 @@
 /*!
  *  @brief  程序通过此OpenURL启动
  */
-@property (nonatomic, assign, readwrite) AOUMsgSceneType sceneType;
+@property (nonatomic, assign, readwrite) ALURLSceneType sceneType;
 
 /*!
  *  @brief 应用接收到OpenURL时刻的应用状态
@@ -152,25 +152,25 @@
             /*!
              *  @brief 应用未运行,通过OpenURL启动应用
              */
-            self.sceneType = AOUMsgSceneType_Launch;
+            self.sceneType = ALURLSceneType_Launch;
         }
         else if(_applicationState == UIApplicationStateBackground){
             /*
              此种场景OpenURL应该不会出现
              */
-            self.sceneType = AOUMsgSceneType_Awake;
+            self.sceneType = ALURLSceneType_Awake;
         }else if(_applicationState == UIApplicationStateInactive){
             /*
              后台/前台非激活-->前台激活 : 应用处于后台Background、挂起Suspended状态、前台非激活Inactive状态时,用户通过OpenURL消息唤醒/调起应用到前台Active。
              每当应用要从一个状态切换到另一个不同的状态时，中途过渡会短暂停留在此状态。
              唯一在此状态停留时间比较长的情况是：当用户锁屏时，用户拉出通知中心列表时或者系统提示用户去响应某些（诸如电话来电、有未读短信等）事件的时候。
              */
-            self.sceneType = AOUMsgSceneType_Awake;
+            self.sceneType = ALURLSceneType_Awake;
         }else if(_applicationState == UIApplicationStateActive){
             /*
              当前应用正在前台运行，并且接收事件。
              */
-            self.sceneType = AOUMsgSceneType_Active;
+            self.sceneType = ALURLSceneType_Active;
         }
         
         if (self.url) {
