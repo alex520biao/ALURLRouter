@@ -6,13 +6,9 @@
 //
 //
 
-#ifndef ALURLRouterKit_h
-#define ALURLRouterKit_h
-
+//等价于 #ifndef ... #define ... #endif
+#pragma once
 #import <ALURLRouter/ALURLRouter.h>
 #import <ALURLRouter/ALURLProtocol.h>
 #import <ALURLRouter/ALURLEvent.h>
 #import <ALURLRouter/NSError+ALURL.h>
-
-
-#endif /* ALURLRouterKit_h */
