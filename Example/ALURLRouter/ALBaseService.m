@@ -14,7 +14,7 @@
  *  @brief service加载完成
  */
 - (void)serviceDidLoad{
-    
+    //子类需要重写此方法
 
 }
 

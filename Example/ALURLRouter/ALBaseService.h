@@ -9,10 +9,20 @@
 #import <Foundation/Foundation.h>
 #import <ALURLRouter/ALURLRouterKit.h>
 
+@protocol ALBaseServiceProtocol <NSObject>
+
+/*!
+ *  @brief service加载完成(子类需要重写)
+ */
+- (void)serviceDidLoad;
+
+
+@end
+
 /*!
  *  @brief Service业务基类
  */
-@interface ALBaseService : NSObject
+@interface ALBaseService : NSObject<ALBaseServiceProtocol>
 
 /*!
  *  @brief  业务模块间通信路由(Service间URL调用)
@@ -20,7 +30,7 @@
 @property (nonatomic, strong) ALURLRouter *urlRouter;
 
 /*!
- *  @brief service加载完成
+ *  @brief service加载完成(子类需要重写)
  */
 - (void)serviceDidLoad;
 
