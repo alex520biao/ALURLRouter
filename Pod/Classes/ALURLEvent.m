@@ -26,12 +26,20 @@
 @property (nonatomic, copy, readwrite) NSString       *URLIdentifier;
 
 /*!
- *  @brief  页面/服务名称
+ *  @brief  业务分类或模块
+ @  @note   URL的一级path
  */
-@property (nonatomic, copy, readwrite) NSString       *servie;
+@property (nonatomic, copy, readwrite) NSString       *module;
 
 /*!
- *  @brief  动作/行为名称
+ *  @brief  业务子分类或子模块
+ @  @note   URL的二级path
+ */
+@property (nonatomic, copy, readwrite) NSString       *submodule;
+
+/*!
+ *  @brief  业务动作(一般是打开指定页面)
+ *  @note   URL的三级path
  */
 @property (nonatomic, copy, readwrite) NSString       *action;
 
@@ -112,15 +120,14 @@
             
             //url path
             if(self.url.path && self.url.path.length >0){
-                //service: 一级path
-                if (self.url.pathComponents.count>1) {
-                    self.servie = [self.url.pathComponents objectAtIndex:1];
-                }
+                //module: 一级path
+                self.module = [self pathComponentWithIndex:1];
                 
-                //action: 二级path
-                if (self.url.pathComponents.count>2) {
-                    self.action = [self.url.pathComponents objectAtIndex:2];
-                }
+                //submodule: 二级path
+                self.submodule = [self pathComponentWithIndex:2];
+                
+                //action: 三级path
+                self.action = [self pathComponentWithIndex:3];
             }
 
             //url queryDict
@@ -132,6 +139,24 @@
     }
     return self;
 }
+
+/*!
+ *  @brief 根据pathComponents的index读取path
+ *
+ *  @param index
+ *
+ *  @return
+ */
+-(NSString*)pathComponentWithIndex:(NSInteger)index{
+    NSString *pathComponent = nil;
+    if(self.url.path && self.url.path.length >0){
+        if (self.url.pathComponents.count>index) {
+            pathComponent = [self.url.pathComponents objectAtIndex:index];
+        }
+    }
+    return pathComponent;
+}
+
 
 - (instancetype)initWithOpenURL:(NSURL*)url
                          source:(NSString *)sourceApplication
@@ -182,15 +207,14 @@
             
             //url path
             if(self.url.path && self.url.path.length >0){
-                //service: 一级path
-                if (self.url.pathComponents.count>1) {
-                    self.servie = [self.url.pathComponents objectAtIndex:1];
-                }
+                //module: 一级path
+                self.module = [self pathComponentWithIndex:1];
                 
-                //action: 二级path
-                if (self.url.pathComponents.count>2) {
-                    self.action = [self.url.pathComponents objectAtIndex:2];
-                }
+                //submodule: 二级path
+                self.submodule = [self pathComponentWithIndex:2];
+                
+                //action: 三级path
+                self.action = [self pathComponentWithIndex:3];
             }
             
             //url queryDict

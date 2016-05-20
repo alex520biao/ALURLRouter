@@ -49,8 +49,8 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
 @implementation ALURLRouter
 
 #pragma mark - URLPattern管理
-- (void)registerURLPattern:(NSString *)URLPattern handler:(ALURLEventHandler)handler{
-    [self addURLPattern:URLPattern andObjectHandler:handler];
+- (BOOL)registerURLPattern:(NSString *)URLPattern handler:(ALURLEventHandler)handler{
+    return [self addURLPattern:URLPattern andObjectHandler:handler];
 }
 
 - (void)deregisterURLPattern:(NSString *)URLPattern{
@@ -65,18 +65,17 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     }
 }
 
-- (void)addURLPattern:(NSString *)URLPattern andHandler:(ALURLEventHandler)handler{
+- (BOOL)addURLPattern:(NSString *)URLPattern andObjectHandler:(ALURLEventHandler)handler{
+    BOOL cover = NO;
     NSMutableDictionary *subRoutes = [self addURLPattern:URLPattern];
+    //如果此节点已经被注册则本次注册将会覆盖上一次注册,调用者需要关注此返回值
+    if (subRoutes[ALURL_BLOCK]) {
+        cover = YES;
+    }
     if (handler && subRoutes) {
         subRoutes[ALURL_BLOCK] = [handler copy];
     }
-}
-
-- (void)addURLPattern:(NSString *)URLPattern andObjectHandler:(ALURLEventHandler)handler{
-    NSMutableDictionary *subRoutes = [self addURLPattern:URLPattern];
-    if (handler && subRoutes) {
-        subRoutes[ALURL_BLOCK] = [handler copy];
-    }
+    return cover;
 }
 
 - (NSMutableDictionary *)addURLPattern:(NSString *)URLPattern

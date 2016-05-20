@@ -26,7 +26,7 @@
  *  @param URLPattern 为URL即?前部分(不带参数)，如 app://serviceA/action1
  *  @param handler    URLPattern的处理block
  */
-- (void)registerURLPattern:(ALURLPattern *)URLPattern handler:(ALURLEventHandler)handler;
+- (BOOL)registerURLPattern:(ALURLPattern *)URLPattern handler:(ALURLEventHandler)handler;
 
 /**
  *  撤销某个URL Pattern

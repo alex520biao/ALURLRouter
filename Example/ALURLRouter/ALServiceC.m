@@ -104,10 +104,10 @@
                           }];
     }else if (action==3){
         //打开http或https协议URL
-        [self.urlRouter callInsideURL:[NSURL URLWithString:@"http://xiaojukeji.com/abc"]];
+        [self.urlRouter callInsideURL:[NSURL URLWithString:@"http://www.hao123.com/"]];
     }else if (action==4){
         //打开http或https协议URL
-        [self.urlRouter callInsideURL:[NSURL URLWithString:@"https://xiaojukeji.com/efg"]];
+        [self.urlRouter callInsideURL:[NSURL URLWithString:@"https://www.hao123.com/"]];
     }
 }
 

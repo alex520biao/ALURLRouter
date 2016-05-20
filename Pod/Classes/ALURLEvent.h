@@ -11,6 +11,7 @@
 
 /*!
  *  @brief InsideURL用于封装跨模块调用的一项服务或功能
+ *  @note  ALURLEvent的URLPath默认分为module、submodule、action三级如果超出请使用pathComponentWithIndex方法自行读取
  */
 @interface ALURLEvent : NSObject
 
@@ -41,16 +42,23 @@
 @property (nonatomic, copy, readonly) NSString       *URLIdentifier;
 
 /*!
- *  @brief  业务分类或服务
+ *  @brief  业务分类或模块
  @  @note   URL的一级path
  */
-@property (nonatomic, copy, readonly) NSString       *servie;
+@property (nonatomic, copy, readonly) NSString       *module;
 
 /*!
- *  @brief  页面或动作(一般是打开指定页面)
- *  @note   URL的二级path
+ *  @brief  业务子分类或子模块
+ @  @note   URL的二级path
+ */
+@property (nonatomic, copy, readonly) NSString       *submodule;
+
+/*!
+ *  @brief  业务动作(一般是打开指定页面)
+ *  @note   URL的三级path
  */
 @property (nonatomic, copy, readonly) NSString       *action;
+
 
 /*!
  *  @brief URL的query参数
@@ -61,6 +69,16 @@
  *  @brief 用户自定义信息
  */
 @property (nonatomic, strong, readonly) NSDictionary *userInfo;
+
+/*!
+ *  @brief 根据pathComponents的index读取path
+ *
+ *  @param index  0级为根路径"/",1为一级path,2为二级path,以此类推
+ *  @note  如alex://com.alex.ALURLRouter-Example/marketing/alert, 0级path为"/",一级path为"marketing",二级path为"alert"
+ *
+ *  @return
+ */
+-(NSString*)pathComponentWithIndex:(NSInteger)index;
 
 #pragma mark - ALURL OpenURL
 /*!

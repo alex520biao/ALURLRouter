@@ -28,7 +28,7 @@
     [super serviceDidLoad];
 
     //拦截并监听http协议的URL
-    [self.urlRouter registerURLPattern:@"http://xiaojukeji.com/abc"
+    [self.urlRouter registerURLPattern:@"http://"
                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
                                    //使用系统Safari浏览器打开http页面
                                    [PXAlertView showAlertWithTitle:@"使用系统Safari浏览器打开http页面"
@@ -45,7 +45,7 @@
                                }];
     
     //拦截并监听https协议的URL(可以是应用内浏览器页面)
-    [self.urlRouter registerURLPattern:@"https://xiaojukeji.com/efg"
+    [self.urlRouter registerURLPattern:@"https://"
                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
                                    //使用native页面打开https页面
                                    [PXAlertView showAlertWithTitle:@"拦截https页面转换为native页面"
@@ -68,7 +68,7 @@
                                handler:^id(ALURLEvent *event, NSError *__autoreleasing *error) {
                                    
                                    //异步处理运营通用web页
-                                   if([event.servie isEqualToString:@"marketing"] && [event.action isEqualToString:@"webpage"]){
+                                   if([event.module isEqualToString:@"marketing"] && [event.submodule isEqualToString:@"webpage"]){
                                        
                                        ALWebViewController *webVC = [[ALWebViewController alloc] init];
                                        webVC.view.backgroundColor = [UIColor whiteColor];
@@ -109,7 +109,7 @@
                                        return nil;
                                    }
                                    //异步处理运营通用alert页
-                                   else if([event.servie isEqualToString:@"marketing"] && [event.action isEqualToString:@"alert"]){
+                                   else if([event.module isEqualToString:@"marketing"] && [event.submodule isEqualToString:@"alert"]){
                                        
                                        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"通用运营弹框"
                                                                                          message:nil
