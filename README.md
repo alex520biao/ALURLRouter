@@ -23,4 +23,4 @@ ALURLRouter is available under the MIT license. See the LICENSE file for more in
 * [https://segmentfault.com/a/1190000002585537](https://segmentfault.com/a/1190000002585537)
 * [HHRouter 开源后日谈](http://www.jianshu.com/p/7ca99b592cce)
 * [https://github.com/mogujie/MGJRouter?from=codefrom.com](https://github.com/mogujie/MGJRouter?from=codefrom.com)
-* [蘑菇街App的组件化之路](https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&mid=402696366&idx=1&sn=ba8cbd75849b9657175c4b25bb0ac5b5&scene=1&srcid=0318ctwtgPxhr8gzk98C4y6B&key=710a5d99946419d95fc1a823e6be44fa85d087f247f9937989bbc67d044f1df603088be241db5bf4d35253b3cf670037&ascene=0&uin=MjQ0OTc4NTg2MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F1605)
+* [蘑菇街App的组件化之路](https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&mid=402696366&idx=1&sn=ba8cbd75849b9657175c4b25bb0ac5b5&scene=1&srcid=0318ctwtgPxhr8gzk98C4y6B&key=710a5d99946419d95fc1a823e6be44fa85d087f247f9937989bbc67d044f1df603088be241db5bf4d35253b3cf670037)
