@@ -53,21 +53,23 @@
         }
     }];
     
-    //接收并处理OpenURL消息
+    //接收并处理OpenURL消息(applicationState必须是应用接收到ALURL消息的瞬时状态)
     [self.urlRouter handleOpenURLWithLaunchOptions:launchOptions
-                                          userInfo:nil];
+                                          userInfo:nil
+                                  applicationState:[application applicationState]];
     
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation{
 
-    //接收并处理OpenURL消息
+    //接收并处理OpenURL消息(applicationState必须是应用接收到ALURL消息的瞬时状态)
     return [self.urlRouter handleOpenURL:url
                        sourceApplication:sourceApplication
                               annotation:annotation
                                     temp:NO
-                                moreInfo:nil];
+                                moreInfo:nil
+                        applicationState:[application applicationState]];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

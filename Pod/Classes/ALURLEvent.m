@@ -157,12 +157,22 @@
     return pathComponent;
 }
 
-
+/*!
+ *  @brief 封装application:openURL:sourceApplication:annotation:方法回调的openURL调用参数
+ *
+ *  @param sourceApplication
+ *  @param url
+ *  @param annotation
+ *  @param applicationState
+ *
+ *  @return
+ */
 - (instancetype)initWithOpenURL:(NSURL*)url
                          source:(NSString *)sourceApplication
                      annotation:(id)annotation
                        userInfo:(NSDictionary*)userInfo
-                         launch:(BOOL)launch{
+                         launch:(BOOL)launch
+               applicationState:(UIApplicationState)applicationState{
     self = [super init];
     if (self) {
         self.sourceApplication = sourceApplication;
@@ -172,7 +182,7 @@
         //此消息为OpenURL
         _channel               = ALURLChannel_OpenURL;
         
-        _applicationState = [UIApplication sharedApplication].applicationState;
+        _applicationState = applicationState;
         if (launch) {
             /*!
              *  @brief 应用未运行,通过OpenURL启动应用
@@ -225,6 +235,33 @@
         }
     }
     return self;
+}
+
+- (instancetype)initWithOpenURL:(NSURL*)url
+                         source:(NSString *)sourceApplication
+                     annotation:(id)annotation
+                       userInfo:(NSDictionary*)userInfo
+                         launch:(BOOL)launch{
+    return [self initWithOpenURL:url
+                          source:sourceApplication
+                      annotation:annotation
+                        userInfo:userInfo
+                          launch:launch
+                applicationState:[UIApplication sharedApplication].applicationState];
+}
+
+/*!
+ *  @brief ALURL调起应用于接收应用相同（即应用自身调用ALURL）
+ *  @note  可以根据此特性实现一些特殊需求: 如A应用通过ALURL打开B应用页面一般不需要页面切换动画，但A应用自己通过ALURL打开A自己的页面此时是需要页面切换动画的
+ *
+ *  @return
+ */
+-(BOOL)theSameSourceApplication{
+    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+    if(self.sourceApplication && [self.sourceApplication isEqualToString:bundleId]){
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - queryString生成queryDict

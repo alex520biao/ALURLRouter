@@ -102,6 +102,13 @@
  */
 @property (nonatomic, assign, readonly) UIApplicationState applicationState;
 
+/*!
+ *  @brief ALOpenURL调起应用于接收应用相同（即应用自身调用ALOpenURL）
+ *  @note  可以根据此特性实现一些特殊需求: 如A应用通过ALOpenURL打开B应用页面一般不需要页面切换动画，但A应用自己通过ALOpenURL打开A自己的页面此时是需要页面切换动画的
+ *
+ *  @return
+ */
+-(BOOL)theSameSourceApplication;
 
 #pragma mark - ALURL InsideURL
 /*!
@@ -144,6 +151,25 @@
                      annotation:(id)annotation
                        userInfo:(NSDictionary*)userInfo
                          launch:(BOOL)launch;
+
+/*!
+ *  @brief 封装application:openURL:sourceApplication:annotation:方法回调的openURL调用参数
+ *
+ *  @param sourceApplication
+ *  @param url
+ *  @param annotation
+ *  @param applicationState
+ *
+ *  @return
+ */
+- (instancetype)initWithOpenURL:(NSURL*)url
+                         source:(NSString *)sourceApplication
+                     annotation:(id)annotation
+                       userInfo:(NSDictionary*)userInfo
+                         launch:(BOOL)launch
+               applicationState:(UIApplicationState)applicationState;
+
+
 
 
 

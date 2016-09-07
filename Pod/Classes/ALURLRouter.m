@@ -252,7 +252,9 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation
                  temp:(BOOL)temp
-             moreInfo:(NSDictionary*)moreInfo{
+             moreInfo:(NSDictionary*)moreInfo
+     applicationState:(UIApplicationState)applicationState{
+
     BOOL launch = NO;
     //launchALURLEvent不为空且与当前url相同则此url启动应用
     if (self.launchALURLEvent && [self.launchALURLEvent.url.absoluteString isEqualToString:url.absoluteString]) {
@@ -266,7 +268,8 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
                                                      source:sourceApplication
                                                  annotation:annotation
                                                    userInfo:moreInfo
-                                                     launch:NO];
+                                                     launch:launch
+                                           applicationState:applicationState];
     //判断是否属于黑名单则拒绝调用
     //    if([event.sourceApplication isEqualToString:@"XXXXX"]){
     //        return NO;
@@ -290,7 +293,9 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
  *  @param  launchOptions 程序启动参数
  *
  */
-- (void)handleOpenURLWithLaunchOptions:(NSDictionary*)launchOptions userInfo:(NSDictionary*)userInfo{
+- (void)handleOpenURLWithLaunchOptions:(NSDictionary*)launchOptions
+                              userInfo:(NSDictionary*)userInfo
+                      applicationState:(UIApplicationState)applicationState{
     NSString *sourceApplication = [launchOptions objectForKey:UIApplicationLaunchOptionsSourceApplicationKey];
     NSURL *openURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
     
@@ -299,8 +304,9 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
         ALURLEvent *event = [[ALURLEvent alloc] initWithOpenURL:openURL
                                                          source:sourceApplication
                                                      annotation:nil
-                                                       userInfo:nil
-                                                         launch:YES];
+                                                       userInfo:userInfo
+                                                         launch:YES
+                                               applicationState:applicationState];
         self.launchALURLEvent = event;
     }
 }

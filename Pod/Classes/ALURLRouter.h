@@ -95,7 +95,9 @@
  *  @param launchOptions 程序启动参数,application:didFinishLaunchingWithOptions方法的launchOptions
  *  @param userInfo      附加信息
  */
-- (void)handleOpenURLWithLaunchOptions:(NSDictionary*)launchOptions userInfo:(NSDictionary*)userInfo;
+- (void)handleOpenURLWithLaunchOptions:(NSDictionary*)launchOptions
+                              userInfo:(NSDictionary*)userInfo
+                      applicationState:(UIApplicationState)applicationState;
 
 /*!
  *  @brief 封装并分发OpenURL
@@ -104,6 +106,7 @@
  *  @param url
  *  @param sourceApplication
  *  @param annotation
+ *  @param temp 是否延迟分发
  *  @param moreInfo 接收到OpenURL时程序自定义的一些附加参数
  *
  *  @return
@@ -112,7 +115,8 @@
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation
                  temp:(BOOL)temp
-             moreInfo:(NSDictionary*)moreInfo;
+             moreInfo:(NSDictionary*)moreInfo
+     applicationState:(UIApplicationState)applicationState;
 
 /*!
  *  @brief 如果tempOpenURLEvent不为空则将TempOpenURLEvent继续向下分发,然后清空tempOpenURLEvent
