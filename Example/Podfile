@@ -17,7 +17,7 @@ end
 
 # Add global dependencies here.
 
-target 'ALURLRouter_Example', :exclusive => true do
+target 'ALURLRouter_Example' do
   # If ALURLRouter depends on any private pod, remember to use `local_pod`
   # to refer it explicitly.
   # CocoaPods cannot distinguish public and private pod from podspec right now,
@@ -32,7 +32,7 @@ target 'ALURLRouter_Example', :exclusive => true do
   pod 'PXAlertView', '~> 0.1.1'
 end
 
-target 'ALURLRouter_Tests', :exclusive => true do
+target 'ALURLRouter_Tests' do
   # Add Tests specific dependencies here...
 
   pod "ALURLRouter", :path => "../"
