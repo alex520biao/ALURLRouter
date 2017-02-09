@@ -74,26 +74,6 @@
              progress:(ALURLProgressBlcok)progress
             completed:(ALURLCompletedBlcok)completed;
 
-#pragma mark - callInsideURL(同步)
-/**
- * 调用此URL并得到一个返回值
- * @note    此方法为同步方法
- *
- *  @param URL
- */
-- (id)callInsideURLSync:(NSURL *)URL;
-
-/**
- * 调用此URL并得到一个返回值
- * @note    此方法为同步方法
- *
- *  @param URL
- *  @param userInfo 除URL之外的更多信息,必须是非自定义通用类型: 基础数据类型(NSString、NSNumber等)、系统Foundation、UIKit等框架类型(NSData、UIImage等)、或者是双方模块公有类型
- */
-- (id)callInsideURLSync:(NSURL *)URL
-           withUserInfo:(NSDictionary *)userInfo
-                  error:(NSError **)error;
-
 #pragma mark - handleOpenURL
 /*!
  *  @brief 程序通过openURL启动,处理application:didFinishLaunchingWithOptions方法的launchOptions
