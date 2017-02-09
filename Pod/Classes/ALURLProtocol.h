@@ -72,7 +72,7 @@ typedef NSString ALURLPattern;
  *
  *  @return
  */
-typedef id (^ALURLEventHandler)(ALURLEvent *event,NSError **error);
+typedef void (^ALURLEventHandler)(ALURLEvent *event,NSError **error);
 
 /*!
  *  @brief InsideURL处理进度

@@ -157,6 +157,7 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
         }
     }
     
+#warning 未完成代码
     //通用拦截器:条件判断
     if (self.interceptor && self.interceptor.interceptorBlcok(event,self.interceptor)) {
         //拦截器回调
