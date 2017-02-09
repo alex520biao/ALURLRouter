@@ -3,6 +3,10 @@
 强大而灵活的iOS组件化实施方案,模块间解耦URL工具.
 ALURLRouter的目的是讲服务URL化，合理的服务包括但不仅限于ViewController页面。
 
+
+ALURLRouter应该默认URL处理过程都是异步的,比如OpenURL接收方的处理过程是不可预知的不能假定为同步过程，因此只能认为是异步过程。
+ALURLRouter中所有处理URL的方法callInsideURL、handleOpenURL等都认为是异步的。
+
 1. 可以同时满足OpenURL与InsideURL的处理需求
 2. ALInsideURL可以得到任务处理进度，处理结果:成功/失败,成功信息/失败NSError
 3. ALInsideURL有返回值

@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ALURLProtocol.h"
+#import "ALURLInterceptor.h"
+
 
 @class ALURLEvent;
 
@@ -18,6 +20,11 @@
  */
 @interface ALURLRouter : NSObject
 
+/**
+ 通用拦截器
+ */
+#warning 测试代码
+@property (nonatomic, strong) ALURLInterceptor  *interceptor;
 
 #pragma mark - URLPattern管理
 /**
@@ -55,7 +62,7 @@
 
 /**
  *  调用此URL,结果通过异步block返回
- *  @note   此为异步方法
+ *  @note   此为异步方法,处理结果由completedBlock异步返回
  *
  *  @param URL        带 Scheme 的 URL，如 app://serviceA/action1
  *  @param userInfo   除URL之外的更多信息,必须是非自定义通用类型: 基础类型、系统框架类型(Foundation、UIKit等)、或者是双方模块公有类型

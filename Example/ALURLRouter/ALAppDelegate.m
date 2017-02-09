@@ -36,6 +36,34 @@
     
     self.urlRouter = [[ALURLRouter alloc] init];
     
+    //登录检查器
+    self.urlRouter.interceptor = [ALURLInterceptor interceptorWithId:@"login"
+                                                                name:@"interceptorName"
+                                                           condition:^BOOL(ALURLEvent *event, ALURLInterceptor *interceptor) {
+                                                               
+                                                               
+                                                               return YES;
+                                                           } intercepted:^(ALURLEvent *event, ALURLInterceptor *interceptor) {
+                                                               NSLog(@"");
+                                                               
+                                                               UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"未登录"
+                                                                                                                 message:@"当前未登陆请登录之后继续"
+                                                                                                                delegate:nil
+                                                                                                       cancelButtonTitle:@"OK"
+                                                                                                       otherButtonTitles:nil];
+                                                               [alertView show];
+                                                               
+                                                               
+                                                               //dispatch计时器
+                                                               dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC));
+                                                               dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                                                   //拦截器处理完成消息继续分发
+                                                                   if(interceptor.goOnBlock){
+                                                                       interceptor.goOnBlock(event,interceptor);
+                                                                   }
+                                                               });
+                                                           }];
+    
     //根据在注册表创建实例化对象
     __weak typeof(self) weakSelf = self;
     [[ALServiceManager sharedInstance] setupProducts:^(ALBaseService *service) {

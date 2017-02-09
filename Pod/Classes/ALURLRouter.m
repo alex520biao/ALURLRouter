@@ -156,85 +156,21 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
             event.completion(event,nil,error);
         }
     }
-
-    //找到接收者并处理
-    if (matcher) {
-        ALURLEventHandler handler = matcher[ALURL_BLOCK];
-        if (progress) {
-            matcher[ALURLRouterParameterProgress] = progress;
-        }
-        if (completed) {
-            matcher[ALURLRouterParameterCompletion] = completed;
-        }
-        if (userInfo) {
-            matcher[ALURLRouterParameterUserInfo] = userInfo;
-        }
-        if (handler) {
-            [matcher removeObjectForKey:ALURL_BLOCK];
-            NSError *error = nil;
-            handler(event,&error);
-        }
-    }
-    //此InsideURL未找到匹配者,此消息被丢弃
-    else{
-        if (event.completion) {
-            NSError *error = [NSError ALURLErrorWithCode:ALURLErrorCodeNotFound
-                                                     msg:@"URL has no handler"];
-            event.completion(event,nil,error);
-        }
-    }
-}
-
-- (id)callInsideURLSync:(NSURL *)URL
-           withUserInfo:(NSDictionary *)userInfo
-                  error:(NSError **)error{
-    //URL格式不正确
-    if(!URL){
-        *error = [NSError ALURLErrorWithCode:ALURLErrorCodeURLInvalid
-                                         msg:@"URL is invalid"];
-        return nil;
-    }
-
-    NSMutableDictionary *matcher = [self extractParametersFromURL:[URL absoluteString]];
-    ALURLEventHandler handler = matcher[ALURL_BLOCK];
     
-    ALURLEvent *event = [[ALURLEvent alloc] initWithInsideURL:URL
-                                                     userInfo:userInfo
-                                                     progress:nil
-                                                   completion:nil];
-    
-    //NSURL创建失败说明url格式不合法
-    if(!event.url){
-        if (event.completion) {
-            NSError *error = [NSError ALURLErrorWithCode:ALURLErrorCodeURLInvalid
-                                                     msg:@"URL format is not valid"];
-            event.completion(event,nil,error);
-        }
+    //通用拦截器:条件判断
+    if (self.interceptor && self.interceptor.interceptorBlcok(event,self.interceptor)) {
+        //拦截器回调
+        self.interceptor.interceptedBlcok(event,self.interceptor);
+        [self.interceptor configGoOnBlock:^(ALURLEvent *event, ALURLInterceptor *interceptor) {
+            //继续下发消息
+            [self distributeALURLEvent:event];
+        }];
+    }else{
+        //立即下发event
+        [self distributeALURLEvent:event];
     }
-
-    //找到接收者并处理
-    if(matcher && handler){
-        if (userInfo) {
-            matcher[ALURLRouterParameterUserInfo] = userInfo;
-        }
-        [matcher removeObjectForKey:ALURL_BLOCK];
-        NSError *errorTemp = nil;
-        id ret = handler(event,&errorTemp);
-        *error = errorTemp;
-        return ret;
-    }
-    //未找到此InsideURL的匹配者
-    else{
-        *error = [NSError ALURLErrorWithCode:ALURLErrorCodeNotFound
-                                         msg:@"URL has no handler"];
-        return nil;
-    }
-    return nil;
 }
 
-- (id)callInsideURLSync:(NSURL *)URL{
-    return [self callInsideURLSync:URL withUserInfo:nil error:nil];
-}
 
 #pragma mark - handleOpenURL
 /*!
