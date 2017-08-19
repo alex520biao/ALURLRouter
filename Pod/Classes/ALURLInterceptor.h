@@ -34,7 +34,7 @@ typedef void (^ALURLInterceptGoOnBlcok)(ALURLEvent *event, ALURLInterceptor *int
 
 /**
  通用事件拦截器: 如登陆检查拦截、URL域名白名单+patch+参数、消息上下文环境参数等拦截
- 拦截器面向AOP的实例
+ 拦截器面向AOP的实例，用于抽象ALURLEventHandler处理回调中的共有通用逻辑。如，登录检查自动进入登录流程
  */
 @interface ALURLInterceptor : NSObject
 

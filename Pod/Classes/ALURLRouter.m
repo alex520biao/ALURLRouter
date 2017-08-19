@@ -19,12 +19,28 @@ static NSString * const ALURL_WILDCARD_CHARACTER = @"~";
 
 //监听者回调block
 static NSString * const ALURL_BLOCK = @"__block__";
+static NSString * const ALURL_InterceptorSet = @"__InterceptorSet__";
 
 //发送方参数及block
 NSString *const ALURLRouterParameterURL = @"ALURLManagerParameterURL";
 NSString *const ALURLRouterParameterUserInfo = @"ALURLManagerParameterUserInfo";
 NSString *const ALURLRouterParameterProgress = @"ALURLManagerParameterProgress";
 NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompletion";
+
+@implementation ALURLPatternModel
+
+-(NSMutableSet*)interceptorSet{
+    if(_interceptorSet){
+        _interceptorSet = [NSMutableSet set];
+    }
+    return _interceptorSet;
+}
+
+-(void)addURLInterceptor:(NSString*)interceptorId{
+    [self.interceptorSet addObject:interceptorId];
+}
+
+@end 
 
 @interface ALURLRouter ()
 
@@ -77,6 +93,43 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     }
     return cover;
 }
+
+
+/**
+ 注册URL监听
+
+ @param URLPattern     URL路径
+ @param interceptorSet URL配置的拦截器
+ @param handler        URL监听回调
+
+ @return
+ */
+- (BOOL)addURLPattern:(NSString *)URLPattern interceptorSet:(NSMutableSet<NSString*>*)interceptorSet andObjectHandler:(ALURLEventHandler)handler{
+    BOOL cover = NO;
+    NSMutableDictionary *subRoutes = [self addURLPattern:URLPattern];
+    //如果此节点已经被注册则本次注册将会覆盖上一次注册,调用者需要关注此返回值
+    if (subRoutes[ALURL_BLOCK]) {
+        cover = YES;
+    }
+    if (handler && subRoutes) {
+        subRoutes[ALURL_BLOCK] = [handler copy];
+        subRoutes[ALURL_InterceptorSet] = interceptorSet;
+    }
+    return cover;
+}
+
+//- (BOOL)addURLPatternWithConfigHandler:(ALURLPatternConfigHandler)handler{
+////    BOOL cover = NO;
+////    NSMutableDictionary *subRoutes = [self addURLPattern:URLPattern];
+////    //如果此节点已经被注册则本次注册将会覆盖上一次注册,调用者需要关注此返回值
+////    if (subRoutes[ALURL_BLOCK]) {
+////        cover = YES;
+////    }
+////    if (handler && subRoutes) {
+////        subRoutes[ALURL_BLOCK] = [handler copy];
+////    }
+//    return YES;
+//}
 
 - (NSMutableDictionary *)addURLPattern:(NSString *)URLPattern
 {
@@ -368,6 +421,10 @@ NSString *const ALURLRouterParameterCompletion = @"ALURLManagerParameterCompleti
     //block
     if (subRoutes[ALURL_BLOCK]) {
         parameters[ALURL_BLOCK] = [subRoutes[ALURL_BLOCK] copy];
+    }
+    
+    if (subRoutes[ALURL_BLOCK]) {
+        parameters[ALURL_InterceptorSet] = [subRoutes[ALURL_InterceptorSet] copy];
     }
     
     //URLEncoding

@@ -12,6 +12,28 @@
 
 @class ALURLEvent;
 
+@interface ALURLPatternModel : NSObject
+
+
+@property (nonatomic, strong) NSMutableSet *interceptorSet;
+
+
+
+-(void)addURLInterceptor:(NSString*)interceptorId;
+
+@end
+
+
+/*!
+ *  @brief 添加ALURLPattern时的确认Block
+ *
+ *  @param event 消息
+ *  @param error 错误信息
+ *
+ *  @return
+ */
+typedef void (^ALURLPatternConfigHandler)(ALURLPatternModel *config);
+
 
 /*!
  *  @brief 使用URL实现应用组件化
@@ -96,7 +118,7 @@
  *  @param temp 是否延迟分发
  *  @param moreInfo 接收到OpenURL时程序自定义的一些附加参数
  *
- *  @return
+ *  @return 返回值YES表示router收到了消息并将进行分发,但不表示接收方处理完成,也不能表示消息处理结果成功或失败
  */
 - (BOOL)handleOpenURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
