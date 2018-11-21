@@ -20,6 +20,8 @@ typedef void (^SetupBlcok)(ALBaseService *service);
 
 + (instancetype)sharedInstance;
 
+-(NSArray*)services;
+
 /*!
  *  @brief 向业务管理器注册
  *

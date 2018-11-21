@@ -22,6 +22,53 @@
 
 @implementation ALAppDelegate
 
+-(ALServiceA*)serviceA{
+    __block ALServiceA *service = nil;
+    [[ALServiceManager sharedInstance].services enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[ALServiceA class]]) {
+            service = obj;
+            *stop = YES;
+        }
+    }];
+    return service;
+}
+
+-(ALServiceB*)serviceB{
+    __block ALServiceB *service = nil;
+    [[ALServiceManager sharedInstance].services enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[ALServiceB class]]) {
+            service = obj;
+            *stop = YES;
+        }
+    }];
+    return service;
+}
+
+-(ALServiceC*)serviceC{
+    __block ALServiceC *service = nil;
+    [[ALServiceManager sharedInstance].services enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[ALServiceC class]]) {
+            service = obj;
+            *stop = YES;
+        }
+    }];
+    return service;
+}
+
+-(ALMarketingService*)service{
+    __block ALMarketingService *service = nil;
+    [[ALServiceManager sharedInstance].services enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[ALMarketingService class]]) {
+            service = obj;
+            *stop = YES;
+        }
+    }];
+    return service;
+}
+
+
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
@@ -69,17 +116,7 @@
     __weak typeof(self) weakSelf = self;
     [[ALServiceManager sharedInstance] setupProducts:^(ALBaseService *service) {
         //基础属性依赖注入
-        service.urlRouter = weakSelf.urlRouter;
-        
-        if([service isKindOfClass:[ALMarketingService class]]){
-            self.service = (ALMarketingService*)service;
-        }else if ([service isKindOfClass:[ALServiceA class]]){
-            self.serviceA = (ALServiceA*)service;
-        }else if([service isKindOfClass:[ALServiceB class]]){
-            self.serviceB = (ALServiceB*)service;
-        }else if([service isKindOfClass:[ALServiceC class]]){
-            self.serviceC = (ALServiceC*)service;
-        }
+        service.urlRouter = weakSelf.urlRouter;        
     }];
     
     //接收并处理OpenURL消息(applicationState必须是应用接收到ALURL消息的瞬时状态)

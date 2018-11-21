@@ -21,6 +21,16 @@
 
 @implementation ALServiceManager
 
+-(NSArray*)services{
+    NSMutableArray *array = [NSMutableArray array];
+    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:self.objectConfigDict];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        ALServiceItem *item = (ALServiceItem *)obj;
+        [array addObject:item];
+    }];
+    return array;
+}
+
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static ALServiceManager *serviceManager = nil;

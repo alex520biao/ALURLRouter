@@ -16,6 +16,12 @@
  */
 - (void)serviceDidLoad;
 
+/**
+ URL路由
+ 
+ */
+- (ALURLRouter*)urlRouter;
+
 
 @end
 
