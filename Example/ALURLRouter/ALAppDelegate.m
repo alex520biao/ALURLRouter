@@ -36,8 +36,9 @@
     
     self.urlRouter = [[ALURLRouter alloc] init];
     
+    //通用拦截器配置: 拦截之后可以引导到不同的页面或则处理服务。 对调用者透明,注册者只需要配置一个简单的参数即可: 是否开启登录检查。
     //登录检查器
-    self.urlRouter.interceptor = [ALURLInterceptor interceptorWithId:@"login"
+    self.urlRouter.interceptor = [ALURLInterceptor interceptorWithId:@"loginCheck"
                                                                 name:@"interceptorName"
                                                            condition:^BOOL(ALURLEvent *event, ALURLInterceptor *interceptor) {
                                                                

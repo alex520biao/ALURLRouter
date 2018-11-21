@@ -11,6 +11,16 @@
 @class ALURLInterceptor;
 @class ALURLEvent;
 
+/*
+ * URL通用拦截器标志, 取值可以是自定义拦截器(字符串)，也可以是以下通用拦截器
+ *
+ * 登录拦截器 ALURLInterceptorKeyLoginCheck
+ *
+ */
+typedef NSString ALURLInterceptorKey;
+extern ALURLInterceptorKey *const ALURLInterceptorKeyLoginCheck;
+
+
 /*!
  *  @brief 拦截条件
  *
@@ -41,7 +51,7 @@ typedef void (^ALURLInterceptGoOnBlcok)(ALURLEvent *event, ALURLInterceptor *int
 /**
  拦截器唯一标识符
  */
-@property (nonatomic, strong) NSString *interceptorId;
+@property (nonatomic, strong) ALURLInterceptorKey *interceptorId;
 
 /**
  拦截器名称
@@ -69,7 +79,7 @@ typedef void (^ALURLInterceptGoOnBlcok)(ALURLEvent *event, ALURLInterceptor *int
 
 
 
-+(ALURLInterceptor*)interceptorWithId:(NSString*)interceptorId
++(ALURLInterceptor*)interceptorWithId:(ALURLInterceptorKey*)interceptorId
                                  name:(NSString*)interceptorName
                             condition:(ALURLInterceptorBlcok)condition
                           intercepted:(ALURLInterceptedBlcok)intercepted;

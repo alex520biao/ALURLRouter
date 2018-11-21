@@ -7,6 +7,10 @@
 //
 
 #import "ALURLInterceptor.h"
+
+//URL通用拦截器标志
+ALURLInterceptorKey *const ALURLInterceptorKeyLoginCheck = @"ALURLInterceptorKeyLoginCheck";
+
 @interface ALURLInterceptor ()
 
 @end
